@@ -9,7 +9,9 @@
  *    the UI shows an error state; it never substitutes made-up values.
  */
 
-const BASE = '/api';
+// On Netlify the API shares this origin. A GitHub Pages build can point at the
+// Netlify API using VITE_API_BASE=https://your-site.netlify.app/api.
+const BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/$/, '');
 
 export class ApiError extends Error {
   constructor(message, { status, body, url } = {}) {

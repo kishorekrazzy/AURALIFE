@@ -15,5 +15,8 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
+  },
+  "dependencies": {
+    "serverless-http": "^4.0.0"
   }
 }

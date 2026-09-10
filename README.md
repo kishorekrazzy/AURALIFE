@@ -53,6 +53,23 @@ Other scripts:
 | `npm run seed` | resets the datastore to seed data |
 | `npm run dev:server` / `npm run dev:client` | run one side only |
 
+## Deploying to Netlify and GitHub Pages
+
+This repository now includes a [Netlify configuration](netlify.toml) that builds
+the React client, rewrites `/api/*` to a Netlify Function, and serves the SPA
+entry point for every client route. In Netlify, import the repository and use
+the committed configuration; no dashboard build settings are needed.
+
+For GitHub Pages, the included workflow publishes the frontend when changes are
+pushed to `main`. Before enabling it, create a repository variable named
+`NETLIFY_API_URL` with the value of the deployed API, including `/api`, for
+example `https://your-site.netlify.app/api`. Then open **Settings → Pages** and
+select **GitHub Actions** as the source.
+
+GitHub Pages is static hosting, so it uses the Netlify API URL. Netlify Functions
+are suitable for this demo, but their local filesystem is ephemeral; use a
+managed database before relying on bookings or emergency records in production.
+
 ## API
 
 Base URL `/api`.
