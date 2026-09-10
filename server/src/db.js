@@ -1,9 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, '..', 'data');
+const isServerless = Boolean(process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME);
+// Netlify bundles functions as CommonJS, where import.meta.url is unavailable.
+// Its deployed filesystem is read-only too, so use the Lambda temporary folder.
+// The normal Express server keeps its JSON datastore under server/data.
+const serverRoot = path.basename(process.cwd()) === 'server'
+  ? process.cwd()
+  : path.join(process.cwd(), 'server');
+const DATA_DIR = isServerless ? path.join('/tmp', 'auralife') : path.join(serverRoot, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'auralife.json');
 
 /**
