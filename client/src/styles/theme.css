@@ -1,0 +1,204 @@
+/* ==========================================================================
+   AURALIFE — Design tokens
+   A light-only white canvas with a single logo blue as the accent.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Type ---- */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto,
+    'Helvetica Neue', sans-serif;
+  --font-num: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Helvetica Neue',
+    sans-serif;
+
+  /* ---- Reference UI Pastel Palette & Gradients ---- */
+  --pastel-blue: #e1f0fa;
+  --pastel-blue-icon: #1976d2;
+  --pastel-amber: #fef3d6;
+  --pastel-amber-icon: #d97706;
+  --pastel-mint: #def7f0;
+  --pastel-mint-icon: #059669;
+  --pastel-rose: #fde8eb;
+  --pastel-rose-icon: #e11d48;
+  --pastel-green: #eefbe9;
+  --pastel-green-icon: #16a34a;
+  --pastel-lilac: #f0ebfc;
+  --pastel-lilac-icon: #7c3aed;
+
+  /* ---- Appointment card themes ---- */
+  --card-teal: #2fa8c4;
+  --card-teal-dark: #1b7e96;
+  --card-orange: #f59338;
+  --card-orange-dark: #d96f14;
+
+  /* ---- Navigation Map Purple Theme ---- */
+  --nav-purple: #6c2cf4;
+  --nav-purple-bright: #8a3ffc;
+  --nav-purple-glow: rgba(108, 44, 244, 0.35);
+  --nav-purple-gradient: linear-gradient(135deg, #6c2cf4 0%, #9822fc 100%);
+  --map-bg: #e9eff8;
+  --map-block: #d8e2f0;
+  --map-street: #ffffff;
+
+  /* ---- Brand blue (from the UI reference) ---- */
+  --blue: #1a73e8;
+  --blue-strong: #1560c4;
+  --blue-bright: #2e93f5;
+  --blue-soft: #e8f1fe;
+  --blue-soft-2: #d6e6fd;
+  --blue-ink: #1257b0;
+  --on-blue: #ffffff;
+  --logo-gradient: linear-gradient(135deg, #2e93f5 0%, #1466d8 100%);
+  --banner-gradient: linear-gradient(135deg, #cdecfc 0%, #aedef8 50%, #90d0f5 100%);
+  --hero-gradient: #ffffff;
+
+  /* ---- Surfaces (white canvas, blue only for hierarchy and actions) ---- */
+  --canvas: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2: #ffffff;
+  --surface-3: #f7faff;
+  --fill: rgba(20, 60, 120, 0.05);
+  --fill-2: rgba(20, 60, 120, 0.09);
+  --rail: #ffffff;
+
+  /* ---- Ink (near-black headline, cool greys beneath) ---- */
+  --ink: #0f1e36;
+  --ink-2: #28374d;
+  --muted: #6e7d94;
+  --faint: #9ea9b8;
+
+  /* ---- Lines ---- */
+  --line: rgba(16, 46, 92, 0.08);
+  --line-2: rgba(16, 46, 92, 0.14);
+  --ring: rgba(26, 115, 232, 0.28);
+
+  /* ---- Semantics ---- */
+  --success: #0a7c4a;
+  --success-soft: rgba(10, 124, 74, 0.11);
+  --warn: #8a5a00;
+  --warn-soft: rgba(196, 132, 12, 0.15);
+  --danger: #c1271b;
+  --danger-strong: #a41f15;
+  --danger-soft: rgba(193, 39, 27, 0.1);
+  --on-danger: #ffffff;
+
+  /* ---- Elevation ---- */
+  --e1: 0 4px 16px rgba(16, 46, 92, 0.05), 0 1px 3px rgba(16, 46, 92, 0.03);
+  --e2: 0 10px 28px -6px rgba(16, 46, 92, 0.12), 0 3px 8px rgba(16, 46, 92, 0.04);
+  --e3: 0 20px 45px -12px rgba(16, 46, 92, 0.18), 0 6px 14px rgba(16, 46, 92, 0.06);
+  --e4: 0 30px 70px -20px rgba(16, 46, 92, 0.32), 0 6px 16px rgba(16, 46, 92, 0.1);
+  --e-blue: 0 14px 32px -8px rgba(46, 147, 245, 0.35);
+  --e-purple: 0 12px 30px -6px rgba(108, 44, 244, 0.4);
+
+  /* ---- Geometry ---- */
+  --r-xs: 10px;
+  --r-sm: 14px;
+  --r: 18px;
+  --r-lg: 22px;
+  --r-xl: 26px;
+  --r-2xl: 30px;
+  --r-squircle: 20px;
+  --r-full: 999px;
+  --tap: 44px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --fast: 0.16s var(--ease);
+  --med: 0.26s var(--ease);
+  --slow: 0.4s var(--ease-out);
+
+  /* ---- Layout ---- */
+  --rail-w: 268px;
+  --gutter: clamp(14px, 3vw, 36px);
+}
+
+/* ---- Base ---- */
+* {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--canvas);
+  background-image: var(--hero-gradient);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+body.no-scroll {
+  overflow: hidden;
+}
+::selection {
+  background: var(--blue-soft-2);
+  color: var(--ink);
+}
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 650;
+  letter-spacing: -0.024em;
+  color: var(--ink);
+}
+p {
+  margin: 0;
+}
+b,
+strong {
+  font-weight: 640;
+}
+a {
+  color: var(--blue);
+}
+/* Every button inherits the document ink unless it opts out. */
+button {
+  font-family: inherit;
+  color: inherit;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--fill-2);
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--line-2);
+  background-clip: content-box;
+  border: 3px solid transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

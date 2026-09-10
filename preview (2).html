@@ -1,0 +1,2222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AURALIFE — Connected Hospital Care Platform</title>
+<style>
+/* ==========================================================================
+   AURALIFE — Design System v3
+   A clinical-grade console: precise hairlines, layered elevation, a teal
+   clinical accent, and a dedicated mobile architecture (drawer + tab bar).
+   ========================================================================== */
+
+:root{
+  color-scheme: light dark;
+
+  /* ---- Type ---- */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-num: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", sans-serif;
+
+  /* ---- Surfaces ---- */
+  --canvas:#f2f5f7;
+  --surface:#ffffff;
+  --surface-2:#f7fafb;
+  --surface-3:#eef3f5;
+  --fill:rgba(14,40,52,.055);
+  --fill-2:rgba(14,40,52,.10);
+  --rail:rgba(252,253,254,.86);
+
+  /* ---- Ink ---- */
+  --ink:#0d1c25;
+  --ink-2:#31454f;
+  --muted:#61757f;
+  --faint:#8b9ba4;
+
+  /* ---- Lines ---- */
+  --line:rgba(13,28,37,.09);
+  --line-2:rgba(13,28,37,.16);
+  --ring:rgba(13,125,138,.28);
+
+  /* ---- Brand & semantics ---- */
+  --primary:#0d7d8a;
+  --primary-strong:#0a6470;
+  --primary-soft:rgba(13,125,138,.10);
+  --primary-soft-2:rgba(13,125,138,.18);
+  --primary-ink:#075762;
+  --on-primary:#ffffff;
+  --on-danger:#ffffff;
+  --aura:linear-gradient(135deg,#17b0b8 0%,#2f7fd4 55%,#6257c9 100%);
+
+  --success:#0f7a53;
+  --success-soft:rgba(15,122,83,.11);
+  --warn:#8d5b06;
+  --warn-soft:rgba(197,138,17,.15);
+  --danger:#b83227;
+  --danger-soft:rgba(184,50,39,.10);
+  --danger-strong:#a02a20;
+  --violet:#5b52c4;
+
+  /* ---- Elevation ---- */
+  --e1:0 1px 2px rgba(13,28,37,.05), 0 0 0 1px rgba(13,28,37,.045);
+  --e2:0 1px 2px rgba(13,28,37,.05), 0 10px 24px -14px rgba(13,28,37,.30), 0 0 0 1px rgba(13,28,37,.045);
+  --e3:0 20px 48px -18px rgba(13,28,37,.35), 0 2px 8px rgba(13,28,37,.06);
+  --e4:0 32px 80px -24px rgba(13,28,37,.45), 0 4px 16px rgba(13,28,37,.10);
+
+  /* ---- Geometry ---- */
+  --r-xs:8px; --r-sm:11px; --r:14px; --r-lg:18px; --r-xl:22px; --r-2xl:28px; --r-full:999px;
+  --tap:44px;
+
+  /* ---- Motion ---- */
+  --ease:cubic-bezier(.32,.72,0,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --fast:.16s var(--ease);
+  --med:.26s var(--ease);
+  --slow:.4s var(--ease-out);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --canvas:#080d11;
+    --surface:#121b21;
+    --surface-2:#17232a;
+    --surface-3:#1d2b33;
+    --fill:rgba(160,190,205,.08);
+    --fill-2:rgba(160,190,205,.14);
+    --rail:rgba(16,24,30,.86);
+    --ink:#e9f0f3;
+    --ink-2:#c6d4db;
+    --muted:#8ea0aa;
+    --faint:#75868f;
+    --line:rgba(190,215,228,.11);
+    --line-2:rgba(190,215,228,.18);
+    --ring:rgba(45,197,209,.36);
+    --primary:#2dc5d1;
+    --primary-strong:#25a9b4;
+    --primary-soft:rgba(45,197,209,.14);
+    --primary-soft-2:rgba(45,197,209,.24);
+    --primary-ink:#7fe1e9;
+    --on-primary:#042b30;
+    --on-danger:#330b06;
+    --success:#3ecf94;
+    --success-soft:rgba(62,207,148,.14);
+    --warn:#e0a53c;
+    --warn-soft:rgba(224,165,60,.16);
+    --danger:#ff6a5c;
+    --danger-soft:rgba(255,106,92,.14);
+    --danger-strong:#e2503f;
+    --violet:#9b8ff0;
+    --e1:0 1px 2px rgba(0,0,0,.45), 0 0 0 1px rgba(190,215,228,.07);
+    --e2:0 2px 6px rgba(0,0,0,.5), 0 0 0 1px rgba(190,215,228,.07);
+    --e3:0 22px 52px -18px rgba(0,0,0,.8), 0 0 0 1px rgba(190,215,228,.08);
+    --e4:0 34px 84px -22px rgba(0,0,0,.9), 0 0 0 1px rgba(190,215,228,.09);
+  }
+}
+
+/* ==========================================================================
+   1. Base
+   ========================================================================== */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--canvas);color:var(--ink);
+  font-family:var(--font);font-size:14px;line-height:1.5;letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+body.no-scroll{overflow:hidden}
+::selection{background:var(--primary-soft-2);color:var(--ink)}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.024em;color:var(--ink)}
+b,strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--fill-2);border-radius:99px;border:3px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:var(--line-2);background-clip:content-box;border:3px solid transparent}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+.app{display:grid;grid-template-columns:272px minmax(0,1fr);min-height:100vh}
+
+.side{
+  position:sticky;top:0;height:100vh;z-index:40;
+  display:flex;flex-direction:column;min-width:0;
+  padding:22px 14px 20px;
+  background:var(--rail);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
+  border-right:1px solid var(--line);
+}
+
+/* Brand lockup */
+.brand{
+  display:flex;align-items:center;gap:11px;
+  padding:4px 10px 0;margin-bottom:22px;min-width:0;
+}
+.brand-mark{
+  width:34px;height:34px;flex:none;border-radius:10px;
+  background:var(--aura);display:grid;place-items:center;
+  box-shadow:0 4px 12px -4px rgba(47,127,212,.55), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.brand-mark svg{width:19px;height:19px;display:block}
+.brand-text{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.brand-name{
+  font-size:15.5px;font-weight:700;letter-spacing:.07em;
+  color:var(--ink);line-height:1.1;
+}
+.brand small{
+  font-size:10.5px;font-weight:500;color:var(--muted);
+  letter-spacing:.005em;line-height:1.3;margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* Nav */
+nav{display:grid;gap:1px;align-content:start;overflow-y:auto;overflow-x:hidden;flex:1;margin:0 -4px;padding:0 4px}
+.nav-label{
+  padding:14px 12px 6px;font-size:10px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+}
+.nav{
+  position:relative;display:flex;align-items:center;gap:11px;
+  padding:9px 12px;border-radius:var(--r-sm);cursor:pointer;
+  font-size:13.5px;font-weight:520;color:var(--ink-2);
+  transition:background var(--fast),color var(--fast);
+  -webkit-user-select:none;user-select:none;white-space:nowrap;min-width:0;
+}
+.nav:hover{background:var(--fill)}
+.nav:active{background:var(--fill-2)}
+.nav.active{background:var(--primary-soft);color:var(--primary-ink);font-weight:640}
+.nav.active::before{
+  content:"";position:absolute;left:-4px;top:50%;transform:translateY(-50%);
+  width:3px;height:18px;border-radius:0 3px 3px 0;background:var(--primary);
+}
+.nav .ico{width:18px;height:18px;flex:none;opacity:.62;transition:opacity var(--fast)}
+.nav:hover .ico{opacity:.9}
+.nav.active .ico{opacity:1}
+.nav span:not(.nav-badge){flex:1;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.nav-badge{
+  margin-left:auto;flex:none;font-size:9px;font-weight:700;letter-spacing:.05em;
+  padding:2.5px 6px;border-radius:var(--r-full);
+  background:var(--success-soft);color:var(--success);
+}
+.foot{
+  margin-top:14px;padding:13px 12px 0;border-top:1px solid var(--line);
+  font-size:10px;line-height:1.65;color:var(--faint);letter-spacing:.005em;
+}
+
+main{padding:0 36px 90px;max-width:1620px;width:100%;min-width:0}
+
+/* ==========================================================================
+   3. Top bar
+   ========================================================================== */
+.top{
+  position:sticky;top:0;z-index:25;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+  padding:24px 0 16px;margin-bottom:24px;
+  border-bottom:1px solid var(--line);
+  background:var(--canvas);
+  background:color-mix(in srgb, var(--canvas) 86%, transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);
+}
+.top>div:first-child{min-width:0}
+h1{font-size:25px;line-height:1.2;letter-spacing:-.03em;font-weight:660}
+.sub{
+  font-size:12.5px;color:var(--muted);margin-top:5px;
+  letter-spacing:-.003em;font-variant-numeric:tabular-nums;
+}
+.top-actions{display:flex;gap:7px;align-items:center;flex:none}
+.role{
+  font-family:inherit;font-size:13px;font-weight:560;color:var(--ink-2);
+  border:1px solid var(--line-2);background:var(--surface);
+  border-radius:var(--r-sm);padding:8px 14px;cursor:pointer;min-height:36px;
+  transition:all var(--fast);white-space:nowrap;box-shadow:var(--e1);
+}
+.role:hover{background:var(--surface-2);border-color:var(--line-2);color:var(--ink)}
+.role.active{
+  background:var(--primary);border-color:var(--primary);color:var(--on-primary);font-weight:620;
+  box-shadow:0 4px 12px -5px rgba(13,125,138,.7);
+}
+.top-language-picker{display:flex;align-items:center;gap:8px;background:transparent;border:0;padding:0}
+.top-language-picker label{
+  margin:0;font-size:11px;font-weight:600;color:var(--faint);
+  white-space:nowrap;text-transform:uppercase;letter-spacing:.07em;
+}
+.top-language-picker select{
+  width:auto;min-width:130px;padding:8px 32px 8px 12px;font-size:13px;min-height:36px;
+  background-color:var(--surface);border-color:var(--line-2);box-shadow:var(--e1);
+}
+
+/* ==========================================================================
+   4. Mobile chrome — app bar, drawer scrim, bottom tab bar
+   ========================================================================== */
+.appbar{
+  display:none;position:sticky;top:0;z-index:45;
+  align-items:center;gap:10px;padding:10px 14px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  background:color-mix(in srgb, var(--canvas) 88%, transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.appbar-btn{
+  width:var(--tap);height:var(--tap);flex:none;border:0;border-radius:var(--r-sm);
+  background:var(--fill);color:var(--ink);display:grid;place-items:center;cursor:pointer;
+  transition:background var(--fast);
+}
+.appbar-btn:active{background:var(--fill-2)}
+.appbar-btn svg{width:20px;height:20px}
+.appbar-title{
+  flex:1;min-width:0;display:flex;align-items:center;gap:9px;
+}
+.appbar-title .brand-mark{width:30px;height:30px;border-radius:9px}
+.appbar-title .brand-mark svg{width:17px;height:17px}
+.appbar-name{font-size:14.5px;font-weight:700;letter-spacing:.07em}
+
+.scrim{
+  position:fixed;inset:0;z-index:46;background:rgba(6,16,22,.44);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;transition:opacity var(--med);
+}
+body.drawer-open .scrim{opacity:1;pointer-events:auto}
+
+.tabbar{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:38;
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb, var(--surface) 90%, transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
+  border-top:1px solid var(--line);
+}
+.tabbar-item{
+  flex:1;min-width:0;border:0;background:transparent;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:6px 2px;border-radius:var(--r-sm);min-height:var(--tap);
+  font-family:inherit;font-size:10px;font-weight:560;letter-spacing:-.005em;
+  color:var(--muted);transition:color var(--fast),background var(--fast);
+}
+.tabbar-item svg{width:21px;height:21px;stroke-width:1.7}
+.tabbar-item.active{color:var(--primary)}
+.tabbar-item:active{background:var(--fill)}
+.tabbar-item span{overflow:hidden;text-overflow:ellipsis;max-width:100%;white-space:nowrap}
+
+/* ==========================================================================
+   5. Views & sections
+   ========================================================================== */
+.view{display:none}
+.view.active{display:block;animation:viewIn .36s var(--ease-out) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ==========================================================================
+   6. Cards, headers, stats
+   ========================================================================== */
+.card{
+  position:relative;background:var(--surface);
+  border-radius:var(--r-lg);padding:22px;box-shadow:var(--e1);
+  border:0;
+}
+.head{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  margin:-2px 0 16px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.head>div:first-child{min-width:0}
+.head h2{font-size:16.5px;font-weight:640;letter-spacing:-.022em}
+h3{font-size:14.5px;font-weight:620;margin-bottom:10px}
+.meta{
+  flex:none;font-size:10.5px;font-weight:600;color:var(--muted);
+  white-space:nowrap;text-transform:uppercase;letter-spacing:.07em;
+}
+.small{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;letter-spacing:-.003em}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}
+.stat{
+  position:relative;overflow:hidden;background:var(--surface);
+  border-radius:var(--r);padding:17px 18px 15px;box-shadow:var(--e1);
+  transition:transform var(--med),box-shadow var(--med);
+}
+.stat::after{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--line-2);opacity:.6;
+}
+.stat:hover{transform:translateY(-2px);box-shadow:var(--e2)}
+.stat b{
+  display:block;font-family:var(--font-num);font-size:29px;font-weight:660;
+  letter-spacing:-.035em;line-height:1.12;font-variant-numeric:tabular-nums;
+}
+.stat span{
+  display:block;font-size:11.5px;color:var(--muted);margin-top:6px;
+  letter-spacing:.005em;font-weight:520;
+}
+.good b{color:var(--primary)}
+.good::after{background:var(--primary)}
+.warn b{color:var(--warn)}
+.warn::after{background:var(--warn)}
+.bad b{color:var(--danger)}
+.bad::after{background:var(--danger)}
+
+.grid{display:grid;grid-template-columns:1.22fr minmax(0,1fr);gap:16px;align-items:start}
+
+/* ==========================================================================
+   7. Data rows
+   ========================================================================== */
+.row{
+  display:flex;align-items:center;gap:13px;padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+.row:last-child{border-bottom:0;padding-bottom:0}
+.token{
+  width:42px;height:42px;flex:none;border-radius:12px;
+  background:var(--fill);color:var(--ink);
+  display:grid;place-items:center;font-weight:660;font-size:14px;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.token.now{
+  background:var(--primary);color:var(--on-primary);box-shadow:0 5px 14px -4px rgba(13,125,138,.65);
+}
+.grow{flex:1;min-width:0}
+.name{font-weight:620;font-size:13.5px;letter-spacing:-.014em}
+.pill{
+  flex:none;font-size:10.5px;padding:4.5px 10px;border-radius:var(--r-full);
+  font-weight:650;white-space:nowrap;letter-spacing:.01em;
+}
+.waiting{background:var(--warn-soft);color:var(--warn)}
+.next{background:var(--primary-soft);color:var(--primary-ink)}
+.progress{background:var(--success-soft);color:var(--success)}
+
+/* ==========================================================================
+   8. Forms
+   ========================================================================== */
+label:not(.hospital-option){
+  display:block;font-size:11px;font-weight:650;color:var(--muted);
+  margin:16px 0 6px;letter-spacing:.05em;text-transform:uppercase;
+}
+/* Wrapper labels (selectable cards) must not inherit form-label typography. */
+.hospital-option{
+  display:block;margin:0;font-size:14px;font-weight:400;color:var(--ink);
+  letter-spacing:-.01em;text-transform:none;
+}
+select,input,textarea{
+  width:100%;padding:11px 13px;font-family:inherit;font-size:14px;color:var(--ink);
+  border:1px solid var(--line-2);border-radius:var(--r-sm);
+  background:var(--surface);letter-spacing:-.008em;min-height:var(--tap);
+  transition:border-color var(--fast),box-shadow var(--fast),background var(--fast);
+  -webkit-appearance:none;appearance:none;
+}
+textarea{resize:vertical;min-height:96px;line-height:1.55}
+select{
+  cursor:pointer;padding-right:36px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.6 6 7.6 9 4.6' fill='none' stroke='%2361757f' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+input[type=date]{-webkit-appearance:none}
+input::placeholder,textarea::placeholder{color:var(--faint)}
+select:hover,input:hover,textarea:hover{border-color:var(--muted)}
+select:focus,input:focus,textarea:focus{
+  outline:none;border-color:var(--primary);box-shadow:0 0 0 3.5px var(--ring);
+}
+
+.slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.slot{
+  padding:11px 4px;text-align:center;border:1px solid var(--line-2);
+  border-radius:var(--r-xs);font-size:13px;font-weight:560;cursor:pointer;
+  font-variant-numeric:tabular-nums;transition:all var(--fast);
+  background:var(--surface);min-height:42px;display:grid;place-items:center;
+}
+.slot:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft)}
+.slot.selected{
+  background:var(--primary);border-color:var(--primary);color:var(--on-primary);font-weight:640;
+  box-shadow:0 4px 12px -5px rgba(13,125,138,.7);
+}
+.slot.taken{
+  opacity:.4;text-decoration:line-through;cursor:not-allowed;
+  background:var(--fill);border-color:transparent;color:var(--muted);
+}
+.slot.taken:hover{color:var(--muted);border-color:transparent;background:var(--fill)}
+
+/* ==========================================================================
+   9. Buttons
+   ========================================================================== */
+.btn{
+  font-family:inherit;font-size:13.5px;font-weight:620;letter-spacing:-.01em;
+  border:1px solid transparent;border-radius:var(--r-sm);
+  padding:11px 17px;cursor:pointer;min-height:var(--tap);
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  transition:transform var(--fast),background var(--fast),box-shadow var(--fast),opacity var(--fast);
+  -webkit-user-select:none;user-select:none;text-align:center;
+}
+.btn:active{transform:scale(.975)}
+.primary{
+  background:var(--primary);color:var(--on-primary);
+  box-shadow:0 4px 12px -6px rgba(13,125,138,.8), inset 0 1px 0 rgba(255,255,255,.14);
+}
+.primary:hover{background:var(--primary-strong)}
+.secondary{background:var(--fill);color:var(--ink);border-color:transparent}
+.secondary:hover{background:var(--fill-2)}
+.btn.full{width:100%;margin-top:16px}
+.card>.btn,.map-panel>.btn{margin-top:16px}
+.card>.btn+.btn{margin-left:8px}
+.btn[disabled]{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ==========================================================================
+   10. Notices, alerts, banners
+   ========================================================================== */
+.notice,.emergency-success{
+  display:none;padding:12px 14px;border-radius:var(--r-sm);
+  font-size:12.5px;margin-top:12px;line-height:1.5;
+  background:var(--success-soft);color:var(--success);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--success) 22%, transparent);
+}
+.notice.show,.emergency-success.show{display:block;animation:viewIn .3s var(--ease-out) both}
+
+.alert{
+  position:relative;padding:13px 15px 13px 15px;border-radius:var(--r-sm);
+  font-size:12.5px;line-height:1.55;margin-bottom:16px;
+  background:var(--surface);color:var(--ink-2);box-shadow:var(--e1);
+}
+.alert.success{
+  background:var(--success-soft);color:var(--success);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--success) 20%, transparent);
+}
+.alert.danger{
+  background:var(--danger-soft);color:var(--danger);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--danger) 20%, transparent);
+}
+
+/* ==========================================================================
+   11. Segmented controls
+   ========================================================================== */
+.tabs,.floor-tabs{
+  display:inline-flex;gap:2px;margin-bottom:16px;flex-wrap:wrap;
+  background:var(--fill);padding:3px;border-radius:var(--r-sm);
+}
+.tab,.floor-btn{
+  font-family:inherit;font-size:12.5px;font-weight:560;color:var(--ink-2);
+  padding:8px 15px;border:0;border-radius:8px;background:transparent;cursor:pointer;
+  transition:all var(--fast);white-space:nowrap;min-height:36px;
+}
+.tab:hover,.floor-btn:hover{color:var(--ink)}
+.tab.active,.floor-btn.active{
+  background:var(--surface);color:var(--ink);font-weight:640;box-shadow:var(--e1);
+}
+.floor-tabs{margin:10px 0 12px;display:flex;width:100%}
+.floor-btn{flex:1;text-align:center}
+
+/* ==========================================================================
+   12. Doctors
+   ========================================================================== */
+.doctor{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.doctor:last-child{border-bottom:0;padding-bottom:0}
+.avatar{
+  width:38px;height:38px;flex:none;border-radius:12px;
+  background:var(--primary-soft);color:var(--primary-ink);
+  display:grid;place-items:center;font-weight:660;font-size:12px;letter-spacing:0;
+}
+.dot{
+  margin-left:auto;width:8px;height:8px;flex:none;border-radius:50%;
+  background:var(--success);box-shadow:0 0 0 3.5px var(--success-soft);
+}
+.dot.busy{background:var(--warn);box-shadow:0 0 0 3.5px var(--warn-soft)}
+
+/* ==========================================================================
+   13. Tables
+   ========================================================================== */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:12px 12px;border-bottom:1px solid var(--line)}
+th{
+  color:var(--faint);font-weight:650;font-size:10.5px;
+  text-transform:uppercase;letter-spacing:.08em;padding-top:0;
+}
+td{color:var(--ink-2)}
+td:first-child{font-weight:600;color:var(--ink)}
+tr:last-child td{border-bottom:0}
+table tr:hover td{background:var(--fill)}
+.t-head:hover td,.t-head:hover th{background:transparent}
+
+/* ==========================================================================
+   14. Mini KPIs
+   ========================================================================== */
+.kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mini{
+  background:var(--surface-2);border-radius:var(--r);padding:15px;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.mini b{
+  font-family:var(--font-num);font-size:21px;font-weight:660;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+}
+.mini span{display:block;color:var(--muted);font-size:11px;margin-top:4px;font-weight:520}
+
+/* ==========================================================================
+   15. Modals & sheets
+   ========================================================================== */
+.modal,.payment-modal{
+  display:none;position:fixed;inset:0;z-index:70;padding:24px;
+  align-items:center;justify-content:center;
+  background:rgba(6,16,22,.42);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+.modal.show,.payment-modal.show{display:flex;animation:fadeIn .22s ease both}
+.modalbox,.payment-box{
+  background:var(--surface);border-radius:var(--r-2xl);padding:26px;
+  max-width:540px;width:100%;box-shadow:var(--e4);
+  animation:popIn .34s var(--ease-out) both;max-height:86vh;overflow:auto;
+}
+.payment-box{max-width:430px;text-align:center}
+.modalbox p{font-size:13.5px;color:var(--ink-2);margin:0 0 10px}
+.modalbox p b{color:var(--ink)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:none}}
+@keyframes sheetIn{from{transform:translateY(100%)}to{transform:none}}
+
+/* ==========================================================================
+   16. Assistant
+   ========================================================================== */
+.ai-fab{
+  position:fixed;right:26px;bottom:26px;width:56px;height:56px;
+  border:0;border-radius:50%;background:var(--aura);color:#fff;
+  cursor:pointer;z-index:36;display:grid;place-items:center;
+  box-shadow:0 10px 28px -8px rgba(47,127,212,.75), 0 2px 6px rgba(13,28,37,.14);
+  transition:transform var(--med),box-shadow var(--med);
+}
+.ai-fab:hover{transform:scale(1.06)}
+.ai-fab:active{transform:scale(.95)}
+.chat{
+  display:none;position:fixed;right:26px;bottom:94px;
+  width:372px;max-width:calc(100vw - 32px);height:520px;
+  background:var(--surface);border-radius:var(--r-xl);
+  box-shadow:var(--e4);z-index:37;overflow:hidden;
+}
+.chat.show{display:flex;flex-direction:column;animation:popIn .3s var(--ease-out) both}
+.chat-head{
+  padding:15px 16px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--line);background:var(--surface-2);
+}
+.chat-head b{font-size:13.5px;font-weight:650;letter-spacing:-.015em}
+.chat-head small{display:block;color:var(--muted);font-size:10.5px;margin-top:2px}
+.chat-close{
+  background:var(--fill);border:0;color:var(--muted);width:30px;height:30px;flex:none;
+  border-radius:50%;font-size:17px;line-height:1;cursor:pointer;transition:background var(--fast);
+}
+.chat-close:hover{background:var(--fill-2);color:var(--ink)}
+.chat-body{flex:1;padding:14px;overflow:auto;background:var(--canvas)}
+.msg{
+  max-width:84%;padding:10px 13px;border-radius:16px;margin:8px 0;
+  font-size:13px;line-height:1.5;letter-spacing:-.008em;box-shadow:var(--e1);
+}
+.msg.bot{background:var(--surface);border-bottom-left-radius:5px;color:var(--ink-2)}
+.msg.user{
+  background:var(--primary);color:var(--on-primary);margin-left:auto;
+  border-bottom-right-radius:5px;box-shadow:0 4px 12px -6px rgba(13,125,138,.7);
+}
+.quick{display:flex;gap:6px;flex-wrap:wrap;padding:10px;border-top:1px solid var(--line)}
+.quick button{
+  font-family:inherit;border:1px solid var(--line-2);background:var(--surface);
+  border-radius:var(--r-full);padding:7px 12px;font-size:11px;font-weight:560;
+  color:var(--ink-2);cursor:pointer;transition:all var(--fast);
+}
+.quick button:hover{background:var(--primary-soft);border-color:transparent;color:var(--primary-ink)}
+.chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);align-items:center}
+.chat-input input{
+  margin:0;flex:1;border-radius:var(--r-full);padding:10px 15px;
+  background:var(--fill);border-color:transparent;min-height:42px;
+}
+.chat-input button{
+  border:0;border-radius:var(--r-full);background:var(--primary);color:var(--on-primary);flex:none;
+  padding:0 17px;height:42px;font-family:inherit;font-size:13px;font-weight:620;cursor:pointer;
+}
+
+/* ==========================================================================
+   17. Fees & payment
+   ========================================================================== */
+.fee-card{
+  background:var(--surface-2);border-radius:var(--r);padding:20px;margin-top:20px;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.fee-summary{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:stretch}
+.fee-box{background:var(--surface);border-radius:var(--r);padding:17px;box-shadow:var(--e1)}
+.fee-amount{
+  font-family:var(--font-num);font-size:32px;font-weight:680;
+  letter-spacing:-.04em;color:var(--ink);margin-top:5px;font-variant-numeric:tabular-nums;
+}
+.fee-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.fee-item{
+  padding:11px;background:var(--surface-2);border-radius:var(--r-xs);
+  font-size:12.5px;color:var(--ink);font-weight:560;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.fee-item b{
+  display:block;font-size:9.5px;font-weight:650;color:var(--faint);
+  margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;
+}
+.pay-btn{margin-top:14px}
+.qr-wrap{
+  display:inline-flex;padding:14px;background:#fff;border-radius:var(--r);
+  margin:14px 0;box-shadow:var(--e2);
+}
+.qr{width:198px;height:198px;display:grid;grid-template-columns:repeat(21,1fr);grid-template-rows:repeat(21,1fr);background:#fff}
+.qr span{display:block}
+.payment-note{font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:10px}
+.payment-box p{font-size:13.5px;margin:6px 0}
+.paid{
+  display:none;background:var(--success-soft);color:var(--success);
+  padding:12px;border-radius:var(--r-sm);font-size:12.5px;margin-top:12px;
+}
+.paid.show{display:block}
+
+/* ==========================================================================
+   18. Indoor navigation
+   ========================================================================== */
+.map-layout{display:grid;grid-template-columns:344px minmax(0,1fr);gap:16px;align-items:start}
+.map-panel{border-radius:var(--r-lg);background:var(--surface);padding:20px;box-shadow:var(--e1)}
+.map-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.map-toolbar button{
+  font-family:inherit;border:1px solid var(--line-2);background:var(--surface);
+  border-radius:var(--r-xs);padding:9px 12px;cursor:pointer;font-size:12.5px;color:var(--ink-2);
+}
+.map-toolbar button.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.search-dest{margin-bottom:10px}
+.dest-list{
+  display:grid;gap:6px;max-height:430px;overflow:auto;padding-right:3px;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 26px), transparent);
+  mask-image:linear-gradient(#000 calc(100% - 26px), transparent);
+}
+.dest{
+  padding:12px 13px;border-radius:var(--r-sm);cursor:pointer;
+  background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line);
+  transition:all var(--fast);
+}
+.dest:hover{background:var(--primary-soft);box-shadow:inset 0 0 0 1px var(--primary-soft-2);transform:translateX(2px)}
+.dest b{display:block;font-size:13px;font-weight:600;letter-spacing:-.012em}
+.dest span{font-size:11px;color:var(--muted)}
+
+.route-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.route-kpi{background:var(--surface-2);border-radius:var(--r-sm);padding:13px;box-shadow:inset 0 0 0 1px var(--line)}
+.route-kpi b{font-family:var(--font-num);font-size:19px;font-weight:660;display:block;letter-spacing:-.03em}
+.route-kpi span{font-size:10px;color:var(--muted);font-weight:530;text-transform:uppercase;letter-spacing:.06em}
+
+.map-wrap{
+  position:relative;border-radius:var(--r);background:var(--surface-2);
+  overflow:hidden;box-shadow:inset 0 0 0 1px var(--line);
+}
+.map-wrap svg{width:100%;height:auto;aspect-ratio:900/540;display:block;transition:transform var(--med)}
+.map-bg{fill:var(--surface-2)}
+.map-floor{fill:var(--surface);stroke:var(--line-2);stroke-width:2}
+.map-room{fill:var(--fill);stroke:none}
+.map-room-dest{fill:var(--primary-soft)}
+.map-corridor{stroke:var(--fill-2);stroke-width:12;fill:none}
+.map-label{font-size:11px;fill:var(--ink-2);font-weight:640;letter-spacing:.04em}
+.room-label{font-size:9px;fill:var(--muted)}
+.route-line{
+  fill:none;stroke:var(--primary);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:2 14;animation:routeDash 1.1s linear infinite;
+}
+.route-dot{fill:var(--surface);stroke:var(--primary);stroke-width:4}
+.you-dot{fill:var(--primary);stroke:var(--surface);stroke-width:4}
+.dest-pin{fill:var(--danger);stroke:var(--surface);stroke-width:4}
+@keyframes routeDash{to{stroke-dashoffset:-16}}
+
+.map-control{
+  position:absolute;right:12px;top:12px;background:var(--surface);
+  border-radius:var(--r-sm);padding:4px;box-shadow:var(--e2);display:grid;gap:2px;
+}
+.map-control button{
+  display:block;width:34px;height:32px;border:0;background:transparent;
+  font-size:16px;color:var(--ink-2);cursor:pointer;border-radius:7px;transition:background var(--fast);
+}
+.map-control button:hover{background:var(--fill)}
+
+.direction-list{display:grid;gap:7px;margin-top:12px}
+.step{
+  display:flex;gap:12px;align-items:flex-start;padding:12px 13px;
+  border-radius:var(--r-sm);background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line);
+}
+.step-icon{
+  width:30px;height:30px;border-radius:10px;background:var(--surface);
+  display:grid;place-items:center;flex:none;font-size:13px;box-shadow:var(--e1);
+}
+.step b{font-size:13px;font-weight:600}
+
+.access-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.chip{
+  padding:8px 13px;border-radius:var(--r-full);background:var(--fill);
+  font-size:11.5px;font-weight:560;color:var(--ink-2);cursor:pointer;
+  transition:all var(--fast);min-height:36px;display:inline-flex;align-items:center;
+}
+.chip:hover{background:var(--fill-2)}
+.chip.good{background:var(--primary-soft);color:var(--primary-ink);font-weight:620}
+
+.nav-alert{
+  padding:12px 14px;border-radius:var(--r-sm);background:var(--warn-soft);
+  color:var(--ink-2);font-size:11.5px;margin-top:12px;line-height:1.55;
+}
+.nav-alert b{color:var(--warn)}
+.map-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);margin-top:12px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:9px;height:9px;border-radius:50%;background:var(--primary);display:inline-block}
+.legend-you{background:var(--primary)}
+.legend-dest{background:var(--danger)}
+.share-row{display:flex;gap:8px;margin-top:12px}
+.share-row button{flex:1}
+.mini-map-note{font-size:10.5px;color:var(--faint);margin-top:10px;line-height:1.55}
+
+.map-google-shell{position:relative}
+.map-search-float{position:absolute;z-index:4;top:12px;left:12px;right:62px;display:flex;gap:8px;flex-wrap:wrap}
+.map-search-float input{flex:1;min-width:170px;box-shadow:var(--e2);border-color:transparent;background:var(--surface)}
+.map-search-float .btn{box-shadow:var(--e2);background:var(--surface)}
+.map-control-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.map-control-row .btn{font-size:12.5px;padding:10px 14px}
+.route-active{box-shadow:0 0 0 3.5px var(--ring)!important}
+.blue-dot{filter:drop-shadow(0 2px 4px rgba(13,125,138,.4))}
+.nav-progress{height:6px;background:var(--fill);border-radius:var(--r-full);overflow:hidden;margin-top:10px}
+.nav-progress>div{height:100%;width:0;background:var(--primary);border-radius:var(--r-full);transition:width .45s var(--ease)}
+.turn-current{background:var(--primary-soft)!important;box-shadow:inset 0 0 0 1.5px var(--primary)!important}
+.arrival-banner{
+  display:none;margin-top:10px;padding:12px 14px;border-radius:var(--r-sm);
+  background:var(--success-soft);color:var(--success);font-weight:620;font-size:13px;
+}
+.arrival-banner.show{display:block;animation:viewIn .3s var(--ease-out) both}
+
+/* ==========================================================================
+   19. Hospital picker & feedback
+   ========================================================================== */
+.hospital-picker{max-width:1040px;margin:0 auto;padding:4px 0 28px}
+.hospital-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px}
+.hospital-option{position:relative}
+.hospital-option input{position:absolute;opacity:0;width:0;height:0}
+.hospital-card{
+  display:block;cursor:pointer;padding:18px;border-radius:var(--r);
+  background:var(--surface);box-shadow:inset 0 0 0 1px var(--line-2);
+  transition:all var(--med);
+}
+.hospital-card b{font-size:14px;font-weight:640;letter-spacing:-.015em}
+.hospital-card:hover{box-shadow:inset 0 0 0 1px var(--muted), var(--e2);transform:translateY(-2px)}
+.hospital-option input:checked+.hospital-card{
+  background:var(--primary-soft);box-shadow:inset 0 0 0 2px var(--primary), var(--e2);
+}
+.hospital-card .check{
+  float:right;width:22px;height:22px;border-radius:50%;
+  background:var(--fill-2);color:transparent;font-size:12px;
+  display:grid;place-items:center;transition:all var(--fast);font-weight:700;
+}
+.hospital-option input:checked+.hospital-card .check{background:var(--primary);color:var(--on-primary)}
+.hospital-option input:focus-visible+.hospital-card{outline:2px solid var(--primary);outline-offset:2px}
+
+.selected-hospitals{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.hospital-chip{
+  padding:7px 13px;border-radius:var(--r-full);background:var(--primary-soft);
+  color:var(--primary-ink);font-size:12.5px;font-weight:580;
+}
+.feedback-stars{display:flex;gap:5px;margin:8px 0}
+.star-btn{
+  border:0;background:transparent;font-size:27px;cursor:pointer;
+  opacity:.2;padding:3px;line-height:1;transition:all var(--fast);filter:grayscale(1);
+}
+.star-btn.selected{opacity:1;filter:none}
+.star-btn:hover{opacity:.85;filter:none;transform:scale(1.12)}
+
+/* ==========================================================================
+   20. Specialist matching
+   ========================================================================== */
+.doctor-choice-list{display:grid;gap:7px;margin-top:10px}
+.doctor-choice{
+  display:flex;align-items:center;gap:12px;width:100%;padding:12px;
+  border:0;border-radius:var(--r-sm);background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--line);
+  text-align:left;cursor:pointer;transition:all var(--fast);
+  font-family:inherit;color:var(--ink);min-height:var(--tap);
+}
+.doctor-choice:hover{box-shadow:inset 0 0 0 1px var(--line-2);background:var(--surface-2)}
+.doctor-choice.recommended{box-shadow:inset 0 0 0 1px var(--primary-soft-2);background:var(--primary-soft)}
+.doctor-choice.selected{box-shadow:inset 0 0 0 2px var(--primary);background:var(--primary-soft)}
+.doctor-choice .avatar{width:36px;height:36px;font-size:11px}
+.doctor-choice-text{flex:1;min-width:0}
+.doctor-choice-text b{display:block;font-size:13px;font-weight:640;color:var(--ink)}
+.doctor-choice-text small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.doctor-choice-check{
+  flex:none;font-size:10.5px;font-weight:650;padding:6px 11px;border-radius:var(--r-full);
+  background:var(--fill);color:var(--muted);white-space:nowrap;
+}
+.doctor-choice.selected .doctor-choice-check{background:var(--primary);color:var(--on-primary)}
+
+/* ==========================================================================
+   21. Hospital comparison
+   ========================================================================== */
+.hospital-live-card{
+  margin:20px 0;padding:22px;border-radius:var(--r-lg);
+  background:var(--surface);box-shadow:var(--e1);
+}
+.hospital-live-card h3{margin:0 0 4px;font-size:16.5px}
+.hospital-live-card .sub{margin:0 0 14px;color:var(--muted);font-size:12.5px}
+.live-doctor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.live-doctor-row{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:14px;border-radius:var(--r-sm);background:var(--surface-2);
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.live-doctor-row span{display:block;color:var(--muted);font-size:11.5px;margin-top:3px}
+.live-doctor-row strong:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.hospital-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:11px;margin-top:14px}
+.hospital-choice{
+  padding:16px;border-radius:var(--r);background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;transition:all var(--med);
+}
+.hospital-choice:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--line-2), var(--e2)}
+.hospital-choice.active{box-shadow:inset 0 0 0 2px var(--primary)}
+.hospital-choice .price{
+  font-family:var(--font-num);font-size:22px;font-weight:670;margin:8px 0 2px;letter-spacing:-.03em;
+}
+.hospital-choice small{color:var(--muted);font-size:11.5px}
+
+/* ==========================================================================
+   22. Emergency
+   ========================================================================== */
+.emergency-card{
+  position:relative;overflow:hidden;margin:20px 0;background:var(--surface);
+  border-radius:var(--r-lg);padding:22px;box-shadow:var(--e1);
+}
+.emergency-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--danger);
+}
+.emergency-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}
+.emergency-action{
+  font-family:inherit;background:var(--danger);color:var(--on-danger);border:0;
+  border-radius:var(--r-sm);padding:12px 18px;font-size:13.5px;font-weight:640;cursor:pointer;
+  min-height:var(--tap);transition:transform var(--fast),background var(--fast);
+  box-shadow:0 5px 14px -7px rgba(184,50,39,.9);
+}
+.emergency-action:hover{background:var(--danger-strong)}
+.emergency-action:active{transform:scale(.98)}
+.emergency-badge{
+  display:inline-block;flex:none;background:var(--danger-soft);color:var(--danger);
+  border-radius:var(--r-full);padding:5px 11px;font-size:10px;font-weight:700;
+  letter-spacing:.07em;white-space:nowrap;text-transform:uppercase;
+}
+.emergency-badge.consent-badge{background:var(--success-soft);color:var(--success)}
+
+.ambulance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:11px}
+.ambulance-card{
+  border-radius:var(--r);padding:16px;background:var(--surface-2);
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.ambulance-card .amb-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.ambulance-card .amb-top b{font-size:13.5px}
+.amb-status{
+  flex:none;font-size:10px;padding:4.5px 10px;border-radius:var(--r-full);
+  background:var(--success-soft);color:var(--success);font-weight:650;
+  white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;
+}
+.amb-status.busy{background:var(--warn-soft);color:var(--warn)}
+
+.history-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.history-item{
+  border-radius:var(--r-sm);padding:13px;background:var(--surface-2);
+  margin-bottom:8px;box-shadow:inset 0 0 0 1px var(--line);
+}
+.history-item b{font-size:13px;font-weight:620}
+
+/* Patient emergency banner */
+.patient-emergency-bar{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  margin:0 0 18px;padding:18px 20px;border-radius:var(--r-lg);
+  background:var(--surface);box-shadow:var(--e1);
+}
+.patient-emergency-bar::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--danger);
+}
+.patient-emergency-title{
+  font-size:16.5px;font-weight:650;color:var(--ink);margin-bottom:3px;letter-spacing:-.022em;
+}
+.patient-emergency-btn{
+  font-family:inherit;border:0;border-radius:var(--r-sm);padding:13px 24px;
+  background:var(--danger);color:var(--on-danger);font-size:14px;font-weight:650;cursor:pointer;
+  white-space:nowrap;min-height:var(--tap);
+  box-shadow:0 6px 16px -8px rgba(184,50,39,.95);
+  transition:transform var(--fast),background var(--fast);
+}
+.patient-emergency-btn:hover{background:var(--danger-strong)}
+.patient-emergency-btn:active{transform:scale(.97)}
+
+/* Admin emergency alert */
+.emergency-admin-alert{
+  position:relative;overflow:hidden;display:none;margin:0 0 18px;padding:20px;
+  border-radius:var(--r-lg);background:var(--surface);box-shadow:var(--e2);
+}
+.emergency-admin-alert::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--danger);
+}
+.emergency-admin-alert.show{display:block;animation:emergencyPulse 1.6s var(--ease) 2}
+.emergency-admin-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.emergency-admin-title{font-size:16.5px;font-weight:660;color:var(--danger);letter-spacing:-.022em}
+.emergency-new{
+  flex:none;background:var(--danger);color:var(--on-danger);border-radius:var(--r-full);
+  padding:4.5px 11px;font-size:10px;font-weight:700;letter-spacing:.06em;white-space:nowrap;
+}
+.emergency-admin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
+.emergency-admin-item{
+  padding:13px;border-radius:var(--r-sm);background:var(--surface-2);
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.emergency-admin-item span{
+  display:block;font-size:9.5px;color:var(--faint);margin-bottom:4px;
+  text-transform:uppercase;letter-spacing:.08em;font-weight:650;
+}
+.emergency-admin-item b{font-size:13px}
+.emergency-admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.emergency-priority-row{
+  border-radius:var(--r-sm);background:var(--danger-soft);color:var(--danger);
+  padding:13px 15px;margin-top:12px;font-size:12.5px;
+}
+.emergency-priority-row .small{color:inherit;opacity:.82}
+.emergency-toast{
+  display:none;position:fixed;right:24px;top:24px;z-index:1000;max-width:380px;
+  padding:15px 18px;border-radius:var(--r);color:#fff;font-weight:560;font-size:13.5px;
+  background:rgba(13,28,37,.94);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:var(--e4);
+}
+.emergency-toast.show{display:block;animation:toastIn .35s var(--ease-out) both}
+@keyframes emergencyPulse{0%,100%{box-shadow:var(--e2)}50%{box-shadow:0 0 0 4px var(--danger-soft), var(--e2)}}
+@keyframes toastIn{from{transform:translateY(-14px);opacity:0}to{transform:none;opacity:1}}
+
+/* ==========================================================================
+   23. Language control
+   ========================================================================== */
+.patient-dashboard-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.language-picker{display:flex;align-items:center;gap:9px;padding:0;background:transparent}
+.language-picker label{
+  font-size:11px;font-weight:650;color:var(--faint);white-space:nowrap;margin:0;
+  text-transform:uppercase;letter-spacing:.07em;
+}
+.language-picker select{width:auto;min-width:128px;font-weight:560}
+.language-note{font-size:12px;color:var(--muted);margin-top:5px}
+.language-selected-badge{
+  display:inline-flex;align-items:center;gap:6px;background:var(--primary-soft);
+  border-radius:var(--r-full);padding:8px 15px;font-weight:580;color:var(--primary-ink);
+  margin-bottom:18px;font-size:12.5px;
+}
+.language-selected-badge::before{content:"";width:0;height:0}
+
+/* ==========================================================================
+   24. Smart local care
+   ========================================================================== */
+.local-care-card{
+  margin:20px 0;border-radius:var(--r-lg);background:var(--surface);
+  padding:22px;box-shadow:var(--e1);
+}
+.local-care-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.local-care-head h2{font-size:17.5px}
+.location-status{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 13px;
+  border-radius:var(--r-full);background:var(--primary-soft);color:var(--primary-ink);
+  font-size:11px;font-weight:650;white-space:nowrap;
+}
+.local-care-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:14px;margin-top:18px;align-items:stretch}
+.location-box,.specialist-box{
+  background:var(--surface-2);border-radius:var(--r);padding:18px;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.location-box .big-location{
+  font-family:var(--font-num);font-size:21px;font-weight:660;
+  color:var(--ink);margin-top:5px;letter-spacing:-.03em;line-height:1.25;
+}
+.location-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.location-actions .btn{font-size:12.5px;padding:10px 15px}
+.hospital-nearby-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(226px,1fr));gap:11px;margin-top:12px}
+.nearby-hospital{
+  border-radius:var(--r);padding:15px;background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;transition:all var(--med);
+}
+.nearby-hospital:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--line-2), var(--e2)}
+.nearby-hospital.active{box-shadow:inset 0 0 0 2px var(--primary)}
+.nearby-hospital b{font-size:13.5px;font-weight:640}
+.nearby-hospital .hospital-distance{font-size:12px;color:var(--primary);margin-top:5px;font-weight:600}
+.nearby-hospital .hospital-meta{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45}
+.problem-specialist{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.problem-specialist .btn{margin-bottom:1px}
+.specialist-result{margin-top:14px;padding:15px;border-radius:var(--r-sm);background:var(--primary-soft);color:var(--ink)}
+.specialist-result>b{color:var(--primary-ink)}
+.specialist-result .doctor-choice-text b{color:var(--ink)}
+.specialist-doctor{font-size:17px;font-weight:660;margin-top:4px;letter-spacing:-.025em}
+.location-note{font-size:11px;color:var(--faint);line-height:1.55;margin-top:10px}
+
+/* ==========================================================================
+   25. Admin lookup
+   ========================================================================== */
+.admin-history{margin-top:18px}
+.patient-search-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+
+/* ==========================================================================
+   26. Responsive — tablet
+   ========================================================================== */
+@media(max-width:1180px){
+  .app{grid-template-columns:236px minmax(0,1fr)}
+  main{padding:0 24px 90px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid,.local-care-grid,.emergency-grid,.fee-summary{grid-template-columns:1fr}
+  .map-layout{grid-template-columns:1fr}
+  .emergency-admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ==========================================================================
+   27. Responsive — mobile (drawer + tab bar architecture)
+   ========================================================================== */
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .appbar{display:flex}
+  .tabbar{display:flex}
+
+  /* Sidebar becomes an off-canvas drawer */
+  .side{
+    position:fixed;top:0;left:0;bottom:0;z-index:47;width:282px;max-width:86vw;height:100dvh;
+    padding:calc(18px + env(safe-area-inset-top)) 12px 18px;
+    border-right:1px solid var(--line);box-shadow:var(--e4);
+    transform:translateX(-102%);transition:transform var(--slow);
+    background:var(--surface);
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  body.drawer-open .side{transform:none}
+  .side .brand{margin-bottom:18px}
+  .nav{padding:11px 12px;font-size:14px;min-height:var(--tap)}
+
+  main{padding:0 16px calc(84px + env(safe-area-inset-bottom))}
+
+  /* The desktop header collapses into a compact stack */
+  .top{
+    position:static;flex-direction:column;align-items:stretch;gap:14px;
+    padding:18px 0 16px;margin-bottom:18px;background:transparent;
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  h1{font-size:22px}
+  .top-actions{
+    display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;
+    margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none;
+  }
+  .top-actions::-webkit-scrollbar{display:none}
+  .role{flex:none}
+  .top-language-picker{flex:none;order:99}
+  .top-language-picker label{display:none}
+
+  .card,.local-care-card,.emergency-card,.hospital-live-card,.map-panel,.patient-emergency-bar,.emergency-admin-alert{
+    padding:18px;border-radius:var(--r);
+  }
+  .head{margin-bottom:14px;padding-bottom:12px}
+  .head h2{font-size:15.5px}
+
+  .ai-fab{
+    right:16px;bottom:calc(78px + env(safe-area-inset-bottom));
+    width:50px;height:50px;
+  }
+  .ai-fab svg{width:20px;height:20px}
+
+  /* Assistant becomes a bottom sheet */
+  .chat{
+    right:0;left:0;bottom:0;width:auto;max-width:none;
+    height:min(78dvh,600px);border-radius:var(--r-2xl) var(--r-2xl) 0 0;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .chat.show{animation:sheetIn .34s var(--ease-out) both}
+
+  /* Modals become bottom sheets */
+  .modal,.payment-modal{padding:0;align-items:flex-end}
+  .modalbox,.payment-box{
+    max-width:none;border-radius:var(--r-2xl) var(--r-2xl) 0 0;
+    max-height:88dvh;padding:22px 18px calc(22px + env(safe-area-inset-bottom));
+    animation:sheetIn .34s var(--ease-out) both;
+  }
+  .modalbox::before,.payment-box::before{
+    content:"";display:block;width:38px;height:4px;border-radius:99px;
+    background:var(--fill-2);margin:-6px auto 16px;
+  }
+
+  .map-search-float{position:static;right:auto;padding:12px 12px 0}
+  .map-search-float input{width:100%}
+  .map-control{right:10px;top:10px}
+  .dest-list{max-height:none}
+  .route-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .share-row,.map-control-row{flex-wrap:wrap}
+  .map-control-row .btn{flex:1 1 46%}
+}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .stat{padding:15px}
+  .stat b{font-size:25px}
+  .history-grid,.fee-details,.patient-search-row,.problem-specialist{grid-template-columns:1fr}
+  .kpi{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .emergency-admin-grid{grid-template-columns:1fr}
+  .patient-emergency-bar{flex-direction:column;align-items:stretch;gap:14px}
+  .patient-emergency-btn{width:100%}
+  .route-summary{grid-template-columns:1fr}
+  .location-actions .btn,.emergency-admin-actions .btn{flex:1 1 100%}
+  .head{flex-wrap:wrap;gap:8px}
+  .meta{order:-1;width:100%}
+
+  /* Tables reflow into labelled stacks */
+  table,table tbody,table tr,table td{display:block;width:100%}
+  table .t-head{display:none}
+  table tr{
+    background:var(--surface-2);border-radius:var(--r-sm);padding:6px 12px;
+    margin-bottom:8px;box-shadow:inset 0 0 0 1px var(--line);
+  }
+  table tr:hover td{background:transparent}
+  table td{
+    display:flex;justify-content:space-between;align-items:center;gap:14px;
+    padding:9px 0;border-bottom:1px solid var(--line);text-align:right;
+  }
+  table tr td:last-child{border-bottom:0}
+  table td::before{
+    content:attr(data-label);flex:none;text-align:left;
+    font-size:10.5px;font-weight:650;color:var(--faint);
+    text-transform:uppercase;letter-spacing:.07em;
+  }
+  table td:first-child{font-weight:640}
+}
+
+@media(max-width:480px){
+  main{padding-left:14px;padding-right:14px}
+  .top-actions{margin:0 -14px;padding:2px 14px 6px}
+  h1{font-size:20px}
+  .stats{grid-template-columns:1fr}
+  .stat b{font-size:27px}
+  .slots{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .kpi{grid-template-columns:1fr}
+  .hospital-grid,.hospital-nearby-grid,.ambulance-grid,.live-doctor-grid,.hospital-compare{grid-template-columns:1fr}
+  .emergency-toast{left:12px;right:12px;top:calc(12px + env(safe-area-inset-top));max-width:none}
+  .fee-amount{font-size:28px}
+  .qr{width:170px;height:170px}
+  .map-control-row .btn,.share-row button{flex:1 1 100%}
+  .tabbar-item{font-size:9.5px}
+  .tabbar-item svg{width:20px;height:20px}
+  .brand-name{font-size:14px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important;scroll-behavior:auto!important;
+  }
+}
+
+@media print{
+  .side,.appbar,.tabbar,.ai-fab,.chat,.scrim,.top-actions{display:none!important}
+  .app{grid-template-columns:1fr}
+  .card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+<header class="appbar"><button class="appbar-btn" onclick="toggleDrawer()" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 7h15.2M4.4 12h15.2M4.4 17h15.2"/></svg></button><div class="appbar-title"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 12.6h3.3l1.9-4.5 2.9 8.4 2.3-6 1.4 2.1h5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="appbar-name">AURALIFE</span></div><button class="appbar-btn" onclick="toggleChat()" aria-label="Open assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 12.2c0 4-3.8 7.2-8.4 7.2-1 0-2-.15-2.9-.42L4.2 20.5l1.3-3.5C4.3 15.6 3.6 14 3.6 12.2c0-4 3.8-7.2 8.4-7.2s8.4 3.2 8.4 7.2Z"/><path d="M8.8 12h.01M12 12h.01M15.2 12h.01"/></svg></button></header>
+<div class="scrim" onclick="closeDrawer()" aria-hidden="true"></div>
+<div class="app">
+<aside class="side">
+<div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 12.6h3.3l1.9-4.5 2.9 8.4 2.3-6 1.4 2.1h5.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="brand-text"><span class="brand-name">AURALIFE</span><small>Connected Hospital Care</small></span></div>
+<nav>
+<div class="nav active" onclick="section('dashboard',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.6"/><rect x="11" y="3" width="6" height="6" rx="1.6"/><rect x="3" y="11" width="6" height="6" rx="1.6"/><rect x="11" y="11" width="6" height="6" rx="1.6"/></svg><span>Dashboard</span></div>
+<div class="nav" onclick="section('appointments',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.6" width="14" height="12.4" rx="2.6"/><path d="M3 8.6h14M6.8 2.9v3.2M13.2 2.9v3.2"/></svg><span>Appointments</span></div>
+<div class="nav" onclick="section('queue',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.2 5.8h11.6M4.2 10h11.6M4.2 14.2h7"/></svg><span>Live Queue</span></div>
+<div class="nav" onclick="section('records',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.6 3.4h5.6l3.9 3.9v9.3H5.6z"/><path d="M11 3.4v4h4"/><path d="M8 11.4h4.2M8 13.9h2.6"/></svg><span>Health Records</span></div>
+<div class="nav" onclick="section('doctors',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7.1" r="2.9"/><path d="M4.4 16.6c0-2.7 2.5-4.7 5.6-4.7s5.6 2 5.6 4.7"/></svg><span>Doctors</span></div>
+<div class="nav" onclick="section('analytics',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.4 16.6h13.2"/><path d="M6.2 14V9.6M10 14V5.4M13.8 14V8"/></svg><span>Analytics</span></div><div class="nav" onclick="section('navigation',this)"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17.4s5.4-4.9 5.4-9a5.4 5.4 0 1 0-10.8 0c0 4.1 5.4 9 5.4 9Z"/><circle cx="10" cy="8.3" r="2"/></svg><span>Navigation</span><span class="nav-badge">NEW</span></div><div class="nav" onclick="openRole('staff',document.querySelectorAll('.role')[2])"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.6" cy="7.3" r="2.8"/><path d="M2.9 16.6c0-2.6 2.1-4.5 4.7-4.5s4.7 1.9 4.7 4.5"/><path d="M13.5 5.1a2.8 2.8 0 0 1 0 5.5M14.4 12.4c1.7.5 2.8 1.9 2.8 4.2"/></svg><span>Staff Workspace</span></div>
+<div class="nav" onclick="openRole('admin',document.querySelectorAll('.role')[3])"><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.9 4.7 5.1v4.8c0 3.5 2.2 6.3 5.3 7.2 3.1-.9 5.3-3.7 5.3-7.2V5.1L10 2.9Z"/><path d="m7.8 9.9 1.7 1.7 3.1-3.3"/></svg><span>Admin Dashboard</span></div>
+</nav>
+<div class="foot">Problem Statement 26199<br>AICTE · Ministry of Education<br>Prototype / MVP</div>
+</aside>
+
+<main>
+<div class="top"><div><h1 id="title">Good evening</h1><div class="sub" id="clock"></div></div>
+<div class="top-actions" id="roleSwitcher">
+<button class="role active" onclick="openRole('patient',this)">Patient</button>
+<div class="language-picker top-language-picker">
+  <label id="i_language_label" for="patientLanguage">Language</label>
+  <select id="patientLanguage" onchange="changePatientLanguage(this.value)" aria-label="Select language">
+    <option value="English" selected>English</option>
+    <option value="Telugu">తెలుగు (Telugu)</option>
+    <option value="Hindi">हिन्दी (Hindi)</option>
+  </select>
+</div>
+<button class="role" onclick="openRole('navigation',this)">Maps</button>
+<button class="role" onclick="openRole('staff',this)">Staff</button>
+<button class="role" onclick="openRole('admin',this)">Admin</button>
+</div></div>
+
+<section id="hospitalSelect" class="view active">
+<div class="hospital-picker">
+<div class="card">
+<div class="head"><div><h2 style="font-size:24px">Welcome to AURALIFE</h2><div class="small">Choose one or more hospitals you would like to use. You can change your selection later.</div></div><span class="meta">Hospital selection</span></div>
+<div class="hospital-grid">
+<label class="hospital-option"><input type="checkbox" name="hospital" value="City Care Hospital"><span class="hospital-card"><span class="check">✓</span><b>City Care Hospital</b><div class="small">Visakhapatnam · Multi-specialty</div></span></label>
+<label class="hospital-option"><input type="checkbox" name="hospital" value="Apollo Hospitals"><span class="hospital-card"><span class="check">✓</span><b>Apollo Hospitals</b><div class="small">Visakhapatnam · Multi-specialty</div></span></label>
+<label class="hospital-option"><input type="checkbox" name="hospital" value="CARE Hospitals"><span class="hospital-card"><span class="check">✓</span><b>CARE Hospitals</b><div class="small">Visakhapatnam · Advanced care</div></span></label>
+<label class="hospital-option"><input type="checkbox" name="hospital" value="SevenHills Hospital"><span class="hospital-card"><span class="check">✓</span><b>SevenHills Hospital</b><div class="small">Visakhapatnam · General & specialty</div></span></label>
+<label class="hospital-option"><input type="checkbox" name="hospital" value="Queen's NRI Hospital"><span class="hospital-card"><span class="check">✓</span><b>Queen's NRI Hospital</b><div class="small">Visakhapatnam · Specialty care</div></span></label>
+<label class="hospital-option"><input type="checkbox" name="hospital" value="Medicover Hospitals"><span class="hospital-card"><span class="check">✓</span><b>Medicover Hospitals</b><div class="small">Visakhapatnam · Multi-specialty</div></span></label>
+</div>
+<div id="selectedHospitalChips" class="selected-hospitals"></div>
+<div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn primary" onclick="continueToPatient()">Continue to Patient Dashboard →</button></div>
+<div class="small" style="margin-top:8px">You can select multiple hospitals. Your first selected hospital will be shown as the active hospital on the dashboard.</div>
+</div></div>
+</section>
+
+<section id="patient" class="view">
+<div class="alert success">✓ Smart care mode active — appointment, queue and notification systems are synchronized.</div>
+<div class="patient-emergency-bar">
+  <div>
+    <div id="i_emergency_title" class="patient-emergency-title">Emergency?</div>
+    <div id="i_emergency_desc" class="small">Need urgent assistance? Click once to notify the doctor and Admin Dashboard for priority care.</div>
+  </div>
+  <div class="patient-dashboard-tools">
+    <button id="i_emergency_btn" class="patient-emergency-btn" onclick="quickEmergency()">Emergency</button>
+  </div>
+</div>
+
+<div id="languageNote" class="language-note language-selected-badge" style="display:none"></div>
+
+<div class="local-care-card" id="smartLocalCare">
+  <div class="local-care-head">
+    <div>
+      <h2 style="margin:0">Smart Local Care Finder</h2>
+      <div class="small" style="margin-top:5px">Know your current area, discover nearby hospitals, and find the right specialist for your problem.</div>
+    </div>
+    <span class="location-status" id="locationStatus">📍 Location not detected</span>
+  </div>
+
+  <div class="local-care-grid">
+    <div class="location-box">
+      <div class="small">Your current location</div>
+      <div class="big-location" id="currentLocation">Location not detected</div>
+      <div class="small" id="locationCoords">Tap “Use my location” to detect your area.</div>
+      <div class="location-actions">
+        <button class="btn primary" onclick="detectUserLocation()">Use my current location</button>
+        <button class="btn secondary" onclick="demoLocation()">Use demo location</button>
+      </div>
+      <div class="location-note">When the patient chooses <b>Choose my current location</b>, the browser asks for location permission and reads the device GPS position. The prototype then displays the detected coordinates and tries to convert them into a readable area name.</div>
+       <div id="liveLocationActions" class="location-actions" style="display:none">
+         <button class="btn secondary" onclick="openDetectedLocation()">Open detected location</button>
+       </div>
+    </div>
+
+    <div class="specialist-box">
+      <div class="head" style="margin-bottom:8px">
+        <h2 style="margin:0">Find the right specialist</h2>
+        <span class="meta">Problem → Department → Doctor</span>
+      </div>
+      <div class="problem-specialist">
+        <div>
+          <label style="margin-top:4px">What is your problem?</label>
+          <select id="healthProblem" onchange="recommendSpecialist()">
+            <option value="">Select a problem</option>
+            <option value="fever">Fever, cold or general weakness</option>
+            <option value="skin">Skin rash, itching or skin problem</option>
+            <option value="bone">Bone, joint or muscle pain</option>
+            <option value="heart">Chest discomfort or heart-related concern</option>
+            <option value="child">Child health problem</option>
+            <option value="stomach">Stomach or digestive problem</option>
+            <option value="women">Women's health concern</option>
+            <option value="eye">Eye-related problem</option>
+            <option value="ear">Ear, nose or throat problem</option>
+            <option value="neuro">Headache, dizziness or nerve-related problem</option>
+            <option value="breathing">Cough, asthma or breathing problem</option>
+            <option value="kidney">Kidney, urinary or bladder problem</option>
+            <option value="dental">Tooth or gum problem</option>
+            <option value="mental">Stress, sleep or mental-wellness concern</option>
+            <option value="women-pregnancy">Pregnancy or maternity care</option>
+          </select>
+        </div>
+        <button class="btn primary" onclick="recommendSpecialist()">Find specialist</button>
+      </div>
+      <div id="specialistResult" class="specialist-result" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="head" style="margin-top:16px;margin-bottom:8px">
+    <h2 style="margin:0">Hospitals near you</h2>
+    <span class="meta" id="nearbyHospitalCount">0 hospitals found</span>
+  </div>
+  <div class="hospital-nearby-grid" id="nearbyHospitals"></div>
+</div>
+<div class="card" style="margin-bottom:18px"><div class="head"><div><div id="i_selected_hospital" class="small">Your selected hospital</div><h2 id="activeHospitalName" style="margin-top:4px">City Care Hospital</h2></div><button id="i_change_hospital" class="btn secondary" onclick="showHospitalSelection()">Change hospitals</button></div><div id="selectedHospitalSummary" class="small"></div></div><div class="card" style="margin-bottom:18px">
+<div class="head"><h2 id="i_hospital_access">Hospital Access</h2><span id="i_workspace" class="meta">Choose your workspace</span></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn primary" onclick="openRole('staff',document.querySelectorAll('.role')[2])">Open Staff Workspace</button>
+<button class="btn secondary" onclick="openRole('admin',document.querySelectorAll('.role')[3])">Open Admin Dashboard</button>
+</div>
+<div class="small" style="margin-top:10px">Staff can manage check-ins and queues. Admins can monitor hospital operations, doctors, appointments and analytics.</div>
+</div>
+<div class="card" style="margin-bottom:18px">
+<div class="head"><h2 id="i_navigate">Navigate to your appointment</h2><span class="meta">Indoor Maps</span></div>
+<div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center">
+<div><b>Dr. Anjali Mehra · General Medicine</b><div class="small">Room 204 · Floor 2 · Current location: OPD Waiting Area · Floor 1</div><div class="small" style="margin-top:6px">📍 120 m &nbsp; • &nbsp; 🚶 ~2 min &nbsp; • &nbsp; ♿ Step-free route available</div></div>
+<button class="btn primary" onclick="navigateToAppointment()">Find Doctor →</button>
+</div></div>
+<div class="stats"><div class="stat good"><b id="myToken">#42</b><span id="i_token">Your current token</span></div><div class="stat bad"><b id="wait">~18 min</b><span id="i_wait">Estimated waiting time</span></div><div class="stat"><b id="ahead">3</b><span id="i_ahead">Patients ahead</span></div><div class="stat"><b>Dr. Mehra</b><span id="i_doctor_room">General Medicine · Room 4</span></div></div>
+<div class="grid">
+<div class="card"><div class="head"><h2 id="i_book">Book appointment</h2><span class="meta">Live slots</span></div>
+<label>Department</label><select id="dept" onchange="filterDoctorsByDepartment()"><option>General Medicine</option><option>Dermatology</option><option>Orthopedics</option><option>Pediatrics</option><option>Cardiology</option><option>Gastroenterology</option><option>Gynecology</option><option>Ophthalmology</option><option>ENT</option><option>Neurology</option><option>Pulmonology</option><option>Urology</option><option>Dentistry</option><option>Psychiatry</option><option>Obstetrics & Gynecology</option></select>
+<label>Doctor</label><select id="doctorSelect"></select>
+<div class="small" id="doctorListNote" style="margin-top:6px">All doctors matching the selected specialist category are shown here.</div>
+<label>Preferred date</label><input type="date" id="date">
+<label>Available slots</label><div class="slots"><div class="slot taken">10:00</div><div class="slot">10:20</div><div class="slot">10:40</div><div class="slot">11:00</div><div class="slot">11:20</div><div class="slot taken">11:40</div><div class="slot">12:00</div><div class="slot">12:20</div></div>
+<button class="btn primary full" onclick="book()">Confirm appointment & generate token</button>
+<div class="notice" id="booking">✓ Appointment confirmed! Token <b>#45</b> generated. Reminder scheduled 15 minutes before your turn.</div>
+<div class="fee-card" id="appointmentFee">
+<div class="head"><h2>Appointment Fee</h2><span class="meta">Payment required</span></div>
+<div class="fee-summary">
+<div class="fee-box">
+<div class="small">Consultation fee</div>
+<div class="fee-amount" id="appointmentFeeAmount">₹500</div>
+<div class="small" id="appointmentFeeDescription">For General Medicine · Dr. Anjali Mehra</div>
+<button class="btn primary full pay-btn" onclick="openPayment()">View fee & Pay by QR</button>
+</div>
+<div class="fee-box">
+<b>Fee details</b>
+<div class="fee-details">
+<div class="fee-item"><b>Doctor</b><span id="feeDoctor">Dr. Anjali Mehra</span></div>
+<div class="fee-item"><b>Department</b><span id="feeDepartment">General Medicine</span></div>
+<div class="fee-item"><b>Consultation</b><span id="feeConsultation">₹500</span></div>
+<div class="fee-item"><b>Duration</b>15–20 min</div>
+<div class="fee-item"><b>Payment</b>UPI / QR</div>
+<div class="fee-item"><b>Refund</b>Hospital policy</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card"><div class="head"><h2 id="i_live_queue">Live queue</h2><span class="meta">Auto-refresh: 30 sec</span></div><div id="patientQueue"></div></div>
+</div>
+<div class="card" style="margin-top:18px"><div class="head"><h2 id="i_health_record">My health record</h2><button class="btn secondary" onclick="openModal()">View full record</button></div><div class="kpi"><div class="mini"><b>B+</b><span>Blood group</span></div><div class="mini"><b>168 / 62</b><span>Height cm / Weight kg</span></div><div class="mini"><b>14 Jul</b><span>Last visit · Dermatology</span></div></div><div class="small" style="margin-top:12px">⚠ Allergy: Penicillin &nbsp; · &nbsp; Family history: Hypertension</div></div>
+<div class="emergency-card">
+<div class="head"><div><h2>Emergency Fast-Track</h2><div class="small">For urgent cases, alert the hospital team before reaching reception so staff can prepare immediate care.</div></div><span class="emergency-badge">PRIORITY CARE</span></div>
+<div class="emergency-grid"><div><label>Emergency reason</label><select id="emergencyReason"><option>Breathing difficulty</option><option>Chest pain</option><option>Severe injury</option><option>Sudden weakness / fainting</option><option>Other urgent condition</option></select><label>Patient / attendant note</label><input id="emergencyNote" placeholder="Briefly describe the urgent situation"><button class="emergency-action" style="margin-top:12px" onclick="requestEmergency()">Alert Hospital & Start Fast-Track</button><div class="emergency-success" id="emergencyNotice">✓ Emergency alert sent to the demo hospital team. Please proceed directly to the Emergency Department; reception queue is bypassed for this demo.</div></div>
+<div class="card"><b>How it works</b><div class="small" style="margin-top:8px">1. Send an emergency alert.</div><div class="small" style="margin-top:6px">2. Hospital staff receive the priority request.</div><div class="small" style="margin-top:6px">3. Emergency team prepares before arrival.</div><div class="small" style="margin-top:6px">4. Ambulance details can be viewed below.</div></div></div></div>
+<div class="card" style="margin-top:18px"><div class="head"><div><h2 id="i_ambulance">Hospital Ambulance Network</h2><div class="small">View verified hospital ambulance details and request one directly from the app.</div></div><span class="meta">Demo live availability</span></div><div class="ambulance-grid" id="ambulanceGrid"></div></div>
+<div class="card" style="margin-top:18px"><div class="head"><div><h2 id="i_history">Previous Reports & Health History</h2><div class="small">Keep earlier consultations and reports available for the next doctor visit.</div></div><button class="btn secondary" onclick="openModal()">View complete record</button></div><div class="history-grid"><div><div class="history-item"><b>14 Jul 2026 · Dermatology</b><div class="small">Follow-up consultation · Prescription recorded</div></div><div class="history-item"><b>12 Jun 2026 · General Medicine</b><div class="small">Blood group, allergy and baseline history updated</div></div><div class="history-item"><b>22 Mar 2026 · Cardiology</b><div class="small">ECG report uploaded · Follow-up advised</div></div></div><div><div class="history-item"><b>Previous reports</b><div class="small">ECG Report · 22 Mar 2026</div><div class="small">Blood Test · 12 Jun 2026</div><div class="small">Dermatology Prescription · 14 Jul 2026</div></div><div class="alert" style="margin:0">🔐 Only authorized staff can access these records. The doctor can search the patient's name in the Admin Dashboard to review the history.</div></div></div></div>
+<div class="card" style="margin-top:18px" id="feedbackCard">
+<div class="head"><div><h2 id="i_feedback">Feedback & Rating</h2><span class="meta">Optional · After your doctor visit</span></div></div>
+<div class="small">Tell us about your experience. You can leave a compliment or complaint and rate your visit.</div>
+<label>Star rating</label><div class="feedback-stars" id="feedbackStars">
+<button class="star-btn" type="button" onclick="setRating(1)">★</button><button class="star-btn" type="button" onclick="setRating(2)">★</button><button class="star-btn" type="button" onclick="setRating(3)">★</button><button class="star-btn" type="button" onclick="setRating(4)">★</button><button class="star-btn" type="button" onclick="setRating(5)">★</button>
+</div><div class="small" id="ratingText">No rating selected</div>
+<label>Feedback type</label><select id="feedbackType"><option value="compliment">Compliment</option><option value="complaint">Complaint</option></select>
+<label>Your feedback <span class="small">(optional)</span></label><textarea id="feedbackText" rows="4" placeholder="Share your experience with the doctor or hospital..."></textarea>
+<div style="display:flex;justify-content:flex-end"><button class="btn primary" onclick="submitFeedback()">Submit Feedback</button></div>
+<div class="notice" id="feedbackNotice">✓ Thank you! Your feedback has been recorded for this demo.</div>
+</div>
+</section>
+
+
+<section id="staff" class="view">
+<div class="alert success">✓ Staff workspace active — queue, check-in and operational tasks are available.</div>
+<div class="stats">
+<div class="stat good"><b id="staffQueueCount">5</b><span>Patients in queue</span></div>
+<div class="stat warn"><b>3</b><span>Appointments pending</span></div>
+<div class="stat"><b>4</b><span>Doctors available</span></div>
+<div class="stat bad"><b>12.4 min</b><span>Average wait</span></div>
+</div>
+<div class="grid">
+<div class="card">
+<div class="head"><h2>Staff Queue Desk</h2><span class="meta">Reception / Nursing Staff</span></div>
+<div id="staffQueue"></div>
+<button class="btn primary" onclick="serveNext()">Call next patient →</button>
+<button class="btn secondary" onclick="addPatient()">+ Register walk-in</button>
+</div>
+<div class="card">
+<div class="head"><h2>Patient Check-in</h2><span class="meta">Front desk</span></div>
+<label>Patient name</label><input id="checkinName" placeholder="Enter patient name">
+<label>Department</label>
+<select id="checkinDept"><option>General Medicine</option><option>Dermatology</option><option>Orthopedics</option><option>Pediatrics</option><option>Cardiology</option></select>
+<label>Appointment status</label>
+<select><option>Arrived — check in</option><option>Walk-in</option><option>Follow-up</option></select>
+<button class="btn primary full" onclick="staffCheckin()">Check in & generate token</button>
+<div class="notice" id="checkinNotice">✓ Patient checked in successfully and added to the live queue.</div>
+</div>
+</div>
+<div class="card" style="margin-top:18px">
+<div class="head"><h2>Staff Tasks</h2><span class="meta">Today's operations</span></div>
+<table>
+<tr><th>Task</th><th>Details</th><th>Status</th></tr>
+<tr><td>Verify appointments</td><td>Morning OPD appointments</td><td>✓ Done</td></tr>
+<tr><td>Check patient arrivals</td><td>General Medicine</td><td>● In progress</td></tr>
+<tr><td>Notify next patients</td><td>Queue notifications</td><td>Active</td></tr>
+<tr><td>Update doctor status</td><td>Room availability</td><td>Pending</td></tr>
+</table>
+</div>
+</section>
+
+<section id="admin" class="view">
+<div class="alert success">✓ Admin dashboard active — hospital-wide monitoring and controls are available.</div>
+<div id="adminEmergencyAlert" class="emergency-admin-alert">
+<div class="emergency-admin-head"><div><div class="emergency-admin-title">Emergency Priority Alert</div><div class="small">A patient requested immediate priority care. The assigned doctor is notified in this prototype.</div></div><span class="emergency-new">NEW</span></div>
+<div class="emergency-admin-grid"><div class="emergency-admin-item"><span>Patient</span><b id="adminEmergencyPatient">Demo Patient</b></div><div class="emergency-admin-item"><span>Emergency reason</span><b id="adminEmergencyReason">Urgent condition</b></div><div class="emergency-admin-item"><span>Assigned doctor</span><b id="adminEmergencyDoctor">Dr. Anjali Mehra</b></div><div class="emergency-admin-item"><span>Received</span><b id="adminEmergencyTime">Just now</b></div></div>
+<div class="emergency-priority-row"><b>Priority queue status:</b> 🚨 Patient moved to the top of the demo queue. <span class="small">Doctor notification: Priority visit requested.</span></div>
+<div class="emergency-admin-actions"><button class="btn primary" onclick="acknowledgeEmergency()">✓ Acknowledge & Notify Doctor</button><button class="btn secondary" onclick="clearEmergencyAlert()">Clear alert</button></div>
+</div>
+<div class="stats"><div class="stat good"><b>184</b><span>Patients today</span></div><div class="stat bad"><b>12.4 min</b><span>Average wait</span></div><div class="stat"><b id="qcount">5</b><span>Current queue</span></div><div class="stat warn"><b>6</b><span>No-shows</span></div></div>
+<div class="grid"><div class="card"><div class="head"><h2>Queue control</h2><span class="meta">Room 4 · General Medicine</span></div><div id="adminQueue"></div><button class="btn primary" onclick="serveNext()">Serve next token →</button> <button class="btn secondary" onclick="addPatient()">+ Walk-in</button></div>
+<div class="card"><div class="head"><h2>Doctor availability</h2></div><div class="doctor"><div class="avatar">AM</div><div><b>Dr. Anjali Mehra</b><div class="small">General Medicine</div></div><div class="dot busy"></div></div><div class="doctor"><div class="avatar">SR</div><div><b>Dr. Suresh Rao</b><div class="small">Orthopedics</div></div><div class="dot"></div></div><div class="doctor"><div class="avatar">PK</div><div><b>Dr. Priya Kulkarni</b><div class="small">Dermatology</div></div><div class="dot"></div></div><div class="doctor"><div class="avatar">MJ</div><div><b>Dr. Manoj Joshi</b><div class="small">Pediatrics</div></div><div class="dot busy"></div></div></div></div>
+<div class="card admin-history"><div class="head"><div><h2>Doctor Health-History Lookup</h2><div class="small">Authorized doctor/admin can enter a patient name and review previous reports before consultation.</div></div><span class="emergency-badge consent-badge">CONSENT-BASED</span></div><div class="patient-search-row"><input id="historyPatientSearch" placeholder="Enter patient name, e.g. Demo Patient"><button class="btn primary" onclick="searchPatientHistory()">Search records</button></div><div id="historyLookupResult" style="margin-top:12px"></div></div>
+<div class="card" style="margin-top:18px"><div class="head"><h2>Today's appointments</h2><span class="meta">Smart scheduling</span></div><table><tr><th>Time</th><th>Patient</th><th>Type</th><th>Status</th></tr><tr><td>10:00</td><td>Vikram Nair</td><td>Follow-up</td><td>✓ Completed</td></tr><tr><td>10:20</td><td>Sunita Desai</td><td>New patient</td><td>✓ Completed</td></tr><tr><td>10:40</td><td>Arjun Bose</td><td>Follow-up</td><td>● In progress</td></tr><tr><td>11:00</td><td>Ramesh Iyer</td><td>New patient</td><td>Waiting</td></tr><tr><td>11:20</td><td>Fatima Sheikh</td><td>Follow-up</td><td>Waiting</td></tr></table></div>
+</section>
+
+<section id="appointments" class="view"><div class="card"><div class="head"><h2>Appointment Management</h2><span class="meta">Centralized scheduling</span></div><div class="tabs"><button class="tab active">Today</button><button class="tab">Tomorrow</button><button class="tab">Upcoming</button></div><table><tr><th>Token</th><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th></tr><tr><td>#40</td><td>Ramesh Iyer</td><td>Dr. Mehra</td><td>11:00</td><td>Waiting</td></tr><tr><td>#41</td><td>Fatima Sheikh</td><td>Dr. Mehra</td><td>11:20</td><td>Waiting</td></tr><tr><td>#42</td><td>You</td><td>Dr. Mehra</td><td>11:40</td><td>Up next</td></tr><tr><td>#43</td><td>Karan Patel</td><td>Dr. Mehra</td><td>12:00</td><td>Upcoming</td></tr></table></div></section>
+
+<section id="queue" class="view"><div class="card"><div class="head"><h2>Hospital-wide live queue</h2><span class="meta">Patient-friendly token system</span></div><div class="grid"><div><h3>General Medicine</h3><div id="queue2"></div></div><div><h3>Other departments</h3><div class="row"><div class="token">18</div><div class="grow"><div class="name">Dermatology</div><div class="small">Dr. Kulkarni · Room 2</div></div><span class="pill waiting">6 waiting</span></div><div class="row"><div class="token">11</div><div class="grow"><div class="name">Orthopedics</div><div class="small">Dr. Rao · Room 6</div></div><span class="pill next">3 waiting</span></div><div class="row"><div class="token">07</div><div class="grow"><div class="name">Pediatrics</div><div class="small">Dr. Joshi · Room 1</div></div><span class="pill progress">In progress</span></div></div></div></div></section>
+
+<section id="records" class="view"><div class="card"><div class="head"><h2>Digital Health Records</h2><span class="meta">Consent-based access</span></div><div class="alert">🔐 Patient records are shown only to authorized consulting staff. Every access can be logged for audit.</div><table><tr><th>Record</th><th>Value</th><th>Last updated</th></tr><tr><td>Blood group</td><td>B+</td><td>12 Jun 2026</td></tr><tr><td>Allergy</td><td>Penicillin</td><td>12 Jun 2026</td></tr><tr><td>Last consultation</td><td>Dermatology</td><td>14 Jul 2026</td></tr><tr><td>Prescription</td><td>Cetirizine 10mg</td><td>14 Jul 2026</td></tr></table></div></section>
+
+<section id="doctors" class="view"><div class="card"><div class="head"><h2>Doctors & Department Capacity</h2></div><div class="grid"><div><div class="doctor"><div class="avatar">AM</div><div><b>Dr. Anjali Mehra</b><div class="small">General Medicine · Room 4</div></div><div class="dot busy"></div></div><div class="doctor"><div class="avatar">SR</div><div><b>Dr. Suresh Rao</b><div class="small">Orthopedics · Room 6</div></div><div class="dot"></div></div></div><div><div class="mini"><b>78%</b><span>Overall OPD capacity</span></div><div class="mini" style="margin-top:8px"><b>4</b><span>Doctors available now</span></div></div></div></div></section>
+
+<section id="analytics" class="view"><div class="card"><div class="head"><h2>Hospital Analytics</h2><span class="meta">Operational insights</span></div><div class="kpi"><div class="mini"><b>184</b><span>Patients today</span></div><div class="mini"><b>12.4m</b><span>Average wait</span></div><div class="mini"><b>94%</b><span>Appointment utilization</span></div><div class="mini"><b>6</b><span>No-show count</span></div><div class="mini"><b>27</b><span>Active queue</span></div><div class="mini"><b>4.7/5</b><span>Patient satisfaction</span></div></div><div class="alert" style="margin-top:15px">💡 Insight: Moving two low-priority appointments to the next available slot could reduce the General Medicine queue by approximately 8 minutes.</div></div></section>
+
+<section id="navigation" class="view">
+  <div class="alert success">Smart Indoor Navigation — search any department, doctor, room or facility and get a route across hospital floors.</div>
+  <div class="map-layout">
+    <div class="map-panel">
+      <div class="head"><h2>Find a destination</h2><span class="meta">Indoor map</span></div>
+      <input class="search-dest" id="navSearch" placeholder="Search Cardiology, Dr. Mehra, X-Ray..." oninput="filterDestinations()">
+      <div class="floor-tabs"><button class="floor-btn active" onclick="setFloor(1,this)">Floor 1</button><button class="floor-btn" onclick="setFloor(2,this)">Floor 2</button><button class="floor-btn" onclick="setFloor(3,this)">Floor 3</button></div>
+      <div class="dest-list" id="destList">
+        <div class="dest" data-search="general medicine dr anjali mehra room 4 clinic a" onclick="navigateTo('General Medicine · Dr. Anjali Mehra','Room 204','2','120 m','2 min')"><b>🩺 General Medicine · Dr. Anjali Mehra</b><span>Room 204 · Floor 2</span></div>
+        <div class="dest" data-search="cardiology heart clinic room 12" onclick="navigateTo('Cardiology','Room 12','2','142 m','4 min')"><b>❤️ Cardiology</b><span>Heart Clinic · Room 12 · Floor 2</span></div>
+        <div class="dest" data-search="x ray radiology imaging" onclick="navigateTo('X-Ray & Imaging','Imaging 2','2','118 m','3 min')"><b>🩻 X-Ray & Imaging</b><span>Imaging Wing · Floor 2</span></div>
+        <div class="dest" data-search="laboratory lab blood test" onclick="navigateTo('Laboratory','Lab Reception','2','96 m','3 min')"><b>🧪 Laboratory</b><span>Lab Reception · Floor 2</span></div>
+        <div class="dest" data-search="pharmacy medicines" onclick="navigateTo('Pharmacy','Pharmacy Counter','1','54 m','1 min')"><b>💊 Pharmacy</b><span>Main Lobby · Floor 1</span></div>
+        <div class="dest" data-search="emergency casualty" onclick="navigateTo('Emergency Department','Emergency Entrance','1','72 m','2 min')"><b>🚨 Emergency Department</b><span>24/7 Emergency Entrance · Floor 1</span></div>
+        <div class="dest" data-search="registration reception help desk" onclick="navigateTo('Registration & Reception','Main Reception','1','34 m','1 min')"><b>🧾 Registration & Reception</b><span>Main Entrance · Floor 1</span></div>
+        <div class="dest" data-search="cafeteria food" onclick="navigateTo('Cafeteria','Cafeteria','3','210 m','6 min')"><b>☕ Cafeteria</b><span>Visitor area · Floor 3</span></div>
+        <div class="dest" data-search="toilet restroom washroom" onclick="navigateTo('Accessible Restroom','Restroom A','1','48 m','1 min')"><b>🚻 Accessible Restroom</b><span>Near Main Lobby · Floor 1</span></div>
+        <div class="dest" data-search="elevator lift" onclick="navigateTo('Elevator Bank','Lift A','1','42 m','1 min')"><b>🛗 Elevator Bank</b><span>Central Core · All Floors</span></div>
+      </div>
+      <div class="access-row"><span class="chip good" onclick="toggleAccess(this)">♿ Step-free route</span><span class="chip" onclick="toggleAccess(this)">🔊 Voice guidance</span><span class="chip" onclick="toggleAccess(this)">👁 High contrast</span></div>
+      <div class="nav-alert">⚠️ <b>Hospital navigation note:</b> this is a demonstration indoor map. Real deployment would use the hospital's verified floor plans and routing data.</div>
+      <div class="share-row"><button class="btn secondary" onclick="shareRoute()">Share route</button><button class="btn primary" onclick="showNavQR()">Get on phone</button></div>
+      <div class="mini-map-note">Designed for patients, attendants, elderly visitors and staff. Routes can prioritize elevators/ramps and avoid restricted clinical areas.</div>
+    </div>
+    <div class="map-panel">
+      <div class="head"><h2 id="mapTitle">Main Entrance → General Medicine</h2><span class="meta" id="mapStatus">Route ready</span></div>
+      <div class="map-wrap">
+        <div class="map-search-float"><input id="navSearchTop" placeholder="Search doctor, room, department or facility" oninput="syncNavSearch(this.value)"><button class="btn secondary" onclick="locateMe()">Recenter</button></div>
+        <svg viewBox="0 0 900 540" aria-label="AURALIFE hospital indoor floor map">
+          <rect x="0" y="0" width="900" height="540" class="map-bg"/>
+          <rect x="50" y="65" width="790" height="410" rx="18" class="map-floor"/>
+          <rect x="80" y="100" width="185" height="115" rx="10" class="map-room"/><rect x="285" y="100" width="235" height="115" rx="10" class="map-room"/><rect x="540" y="100" width="265" height="115" rx="10" class="map-room map-room-dest"/>
+          <rect x="80" y="245" width="225" height="190" rx="10" class="map-room"/><rect x="325" y="245" width="220" height="190" rx="10" class="map-room"/><rect x="565" y="245" width="240" height="190" rx="10" class="map-room"/>
+          <path d="M60 235 H820 M315 70 V470 M550 70 V470" class="map-corridor"/>
+          <path d="M150 470 V410 H315 V285 H550 V180 H730" class="route-line" id="routeLine"/>
+          <circle cx="150" cy="470" r="12" class="you-dot"/><circle cx="730" cy="180" r="12" class="dest-pin"/>
+          <text x="105" y="500" class="map-label">YOU ARE HERE</text><text x="650" y="155" class="map-label" id="destMapLabel">GENERAL MEDICINE</text>
+          <text x="120" y="130" class="map-label">MAIN LOBBY</text><text x="340" y="130" class="map-label">WAITING AREA</text><text x="590" y="130" class="map-label">CLINIC WING</text>
+          <text x="120" y="280" class="map-label">REGISTRATION</text><text x="370" y="280" class="map-label">ELEVATOR / STAIRS</text><text x="610" y="280" class="map-label">DIAGNOSTICS</text>
+          <text x="120" y="405" class="room-label">Pharmacy · Restrooms</text><text x="370" y="405" class="room-label">Lift A · Lift B · Accessible Ramp</text><text x="610" y="405" class="room-label">Lab · Imaging · X-Ray</text>
+          <text x="370" y="205" class="room-label">Rooms 1–8</text><text x="650" y="205" class="room-label">Rooms 9–18</text>
+        </svg>
+        <div class="map-control"><button onclick="zoomMap(1)">+</button><button onclick="zoomMap(-1)">−</button><button onclick="locateMe()">⌖</button></div>
+      </div>
+      <div class="map-control-row"><button class="btn primary" id="startNavBtn" onclick="startNavigation()">Start navigation</button><button class="btn secondary" onclick="chooseRoute('fastest')">Fastest route</button><button class="btn secondary" onclick="chooseRoute('accessible')">♿ Step-free</button><button class="btn secondary" onclick="recalculateRoute()">Recalculate</button></div><div class="nav-progress"><div id="navProgress"></div></div><div class="arrival-banner" id="arrivalBanner">✓ You have arrived at your destination.</div>
+      <div class="route-summary"><div class="route-kpi"><b id="routeDistance">86 m</b><span>Walking distance</span></div><div class="route-kpi"><b id="routeTime">2 min</b><span>Estimated time</span></div><div class="route-kpi"><b id="routeFloor">Floor 1</b><span>Destination floor</span></div></div>
+      <div class="map-legend"><span class="legend-item"><i class="legend-dot legend-you"></i>You are here</span><span class="legend-item"><i class="legend-dot"></i>Suggested route</span><span class="legend-item"><i class="legend-dot legend-dest"></i>Destination</span><span>🛗 Elevator</span><span>♿ Accessible</span></div>
+      <div class="head" style="margin-top:16px"><h2>Turn-by-turn directions</h2><span class="meta">Landmark based</span></div>
+      <div class="direction-list" id="directions"><div class="step"><div class="step-icon">🚶</div><div><b>Start at Main Entrance</b><div class="small">Walk straight 28 m through the lobby.</div></div></div><div class="step"><div class="step-icon">↱</div><div><b>Turn right at Registration</b><div class="small">Continue for 24 m toward the central corridor.</div></div></div><div class="step"><div class="step-icon">🛗</div><div><b>Continue to Clinic Wing</b><div class="small">Use the accessible corridor; no stairs required.</div></div></div><div class="step"><div class="step-icon">📍</div><div><b>Arrive at Room 4</b><div class="small">General Medicine · Dr. Anjali Mehra</div></div></div></div>
+    </div>
+  </div>
+</section>
+</main></div>
+
+
+<nav class="tabbar" aria-label="Primary"><button class="tabbar-item active" onclick="mobileGo('dashboard',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 10.4 12 3.8l8.4 6.6"/><path d="M5.8 9.2v9.4a1 1 0 0 0 1 1h3.4v-5.2h3.6v5.2h3.4a1 1 0 0 0 1-1V9.2"/></svg><span>Home</span></button><button class="tabbar-item" onclick="mobileGo('appointments',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.6" y="5.2" width="16.8" height="15" rx="3"/><path d="M3.6 9.8h16.8M8.2 3.2v3.8M15.8 3.2v3.8"/></svg><span>Visits</span></button><button class="tabbar-item" onclick="mobileGo('queue',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.2h14M5 12h14M5 16.8h8"/></svg><span>Queue</span></button><button class="tabbar-item" onclick="mobileGo('navigation',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.4-5.8 6.4-10.6a6.4 6.4 0 1 0-12.8 0C5.6 15.2 12 21 12 21Z"/><circle cx="12" cy="10.2" r="2.4"/></svg><span>Maps</span></button><button class="tabbar-item" onclick="toggleDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 7h15.2M4.4 12h15.2M4.4 17h15.2"/></svg><span>More</span></button></nav>
+<button class="ai-fab" onclick="toggleChat()" aria-label="Open AI assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:22px;height:22px"><path d="M20.5 12.2c0 4-3.8 7.2-8.5 7.2-1 0-2-.15-2.9-.42L4 20.5l1.35-3.6C4.2 15.6 3.5 14 3.5 12.2 3.5 8.2 7.3 5 12 5s8.5 3.2 8.5 7.2Z"/><path d="M8.7 12h.01M12 12h.01M15.3 12h.01"/></svg></button>
+<div class="chat" id="chat">
+  <div class="chat-head">
+    <div><b>AURALIFE Assistant</b><small>Patient help • Available 24/7</small></div>
+    <button class="chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="msg bot">👋 Hi! I'm the AURALIFE assistant. You can ask me about appointments, tokens, waiting time, departments, doctor availability, or how to use the hospital services.</div>
+  </div>
+  <div class="quick">
+    <button onclick="quickAsk('What is my token and waiting time?')">My token</button>
+    <button onclick="quickAsk('How do I book an appointment?')">Book appointment</button>
+    <button onclick="quickAsk('What departments are available?')">Departments</button>
+    <button onclick="quickAsk('Where can I see my health record?')">Health record</button>
+  </div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="Ask your query..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<div class="payment-modal" id="paymentModal">
+<div class="payment-box">
+<div class="head"><h2>Pay Appointment Fee</h2><button class="btn secondary" onclick="closePayment()">Close</button></div>
+<div class="small" id="paymentDoctorInfo">Dr. Anjali Mehra · General Medicine</div>
+<div class="fee-amount" id="paymentFeeAmount">₹500</div>
+<div class="qr-wrap"><div class="qr" id="qrCode"></div></div>
+<p><b>Scan the QR code with any UPI app</b></p>
+<div class="payment-note">Demo payment screen for the SIH prototype. In a real deployment, this QR would be generated by the hospital's payment gateway for the exact appointment amount.</div>
+<button class="btn primary full" onclick="markPaid()">✓ I have completed payment</button>
+<div class="paid" id="paidNotice">✓ Payment recorded for demo. Receipt status: Paid. Appointment token #45 remains active.</div>
+</div>
+</div>
+<div class="modal" id="modal"><div class="modalbox"><div class="head"><h2>Complete Health Record</h2><button class="btn secondary" onclick="closeModal()">Close</button></div><p><b>Patient:</b> Demo Patient</p><p><b>Blood group:</b> B+</p><p><b>Allergy:</b> Penicillin</p><p><b>Last visit:</b> 14 July 2026 — Dermatology</p><p><b>Prescription:</b> Cetirizine 10mg once daily</p><p><b>Consent:</b> Shared with consulting doctor only</p></div></div>
+
+<script>
+let selectedHospitals=[]; let feedbackRating=0;
+function greeting(){let h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+function continueToPatient(){let boxes=[...document.querySelectorAll('input[name="hospital"]:checked')];if(!boxes.length){alert('Please select at least one hospital to continue.');return}selectedHospitals=boxes.map(x=>x.value);updateHospitalUI();openRole('patient',document.querySelector('.role'));}
+function updateHospitalUI(){let active=selectedHospitals[0]||'City Care Hospital';document.getElementById('title').textContent=greeting();document.getElementById('activeHospitalName').textContent=active;document.getElementById('selectedHospitalSummary').textContent=selectedHospitals.length>1?selectedHospitals.length+' hospitals selected: '+selectedHospitals.join(' · '):'1 hospital selected';let c=document.getElementById('selectedHospitalChips');if(c)c.innerHTML=selectedHospitals.map(x=>'<span class="hospital-chip">✓ '+x+'</span>').join('');}
+function showHospitalSelection(){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('hospitalSelect').classList.add('active');document.querySelectorAll('.role').forEach(x=>x.classList.remove('active'));selectedHospitals.forEach(v=>{let b=document.querySelector('input[name="hospital"][value="'+CSS.escape(v)+'"]');if(b)b.checked=true});}
+function setRating(n){feedbackRating=n;document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('selected',i<n));document.getElementById('ratingText').textContent=n+' out of 5 stars';}
+function submitFeedback(){let type=document.getElementById('feedbackType').value;let text=document.getElementById('feedbackText').value.trim();if(!feedbackRating&&!text){alert('Feedback is optional, so you can skip it. If submitting, please add a star rating or feedback.');return}document.getElementById('feedbackNotice').textContent='✓ '+(type==='compliment'?'Compliment':'Complaint')+' submitted successfully. Thank you for helping improve AURALIFE.';document.getElementById('feedbackNotice').classList.add('show');}
+
+let queue=[{t:40,n:"Ramesh Iyer"},{t:41,n:"Fatima Sheikh"},{t:42,n:"You (Patient)"},{t:43,n:"Karan Patel"},{t:44,n:"Neha Verma"}], now=39;
+function render(){
+ let p=document.getElementById("patientQueue"),a=document.getElementById("adminQueue"),q2=document.getElementById("queue2"),st=document.getElementById("staffQueue");
+ let all='<div class="row"><div class="token now">'+now+'</div><div class="grow"><div class="name">Now serving</div><div class="small">Room 4 · Dr. Mehra</div></div><span class="pill progress">In progress</span></div>'+queue.map((x,i)=>'<div class="row"><div class="token">'+x.t+'</div><div class="grow"><div class="name">'+x.n+'</div><div class="small">Room 4</div></div><span class="pill '+(i==0?'waiting':'next')+'">'+(i==0?'Waiting':i==1?'Waiting':'Upcoming')+'</span></div>').join('');
+ p.innerHTML=all;a.innerHTML=all;q2.innerHTML=all;if(st)st.innerHTML=all;if(document.getElementById("staffQueueCount"))document.getElementById("staffQueueCount").textContent=queue.length;
+ document.getElementById("ahead").textContent=Math.max(0,queue.findIndex(x=>x.t==42));document.getElementById("wait").textContent="~"+(Math.max(0,queue.findIndex(x=>x.t==42))*6+6)+" min";document.getElementById("qcount").textContent=queue.length;
+}
+function serveNext(){if(queue.length){now=queue.shift().t;render()}}
+function addPatient(){let t=queue.length?queue[queue.length-1].t+1:now+1;queue.push({t:t,n:"Walk-in Patient"});render()}
+function book(){
+document.getElementById("booking").classList.add("show");
+document.getElementById("appointmentFee").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function openRole(r,b){
+document.querySelectorAll(".role").forEach(x=>x.classList.remove("active"));
+if(b)b.classList.add("active");
+const navKey={patient:'dashboard',navigation:'navigation',staff:'staff',admin:'admin'}[r]||r;
+document.querySelectorAll(".nav").forEach(x=>{x.classList.remove("active");
+if((x.getAttribute("onclick")||"").indexOf("'"+navKey+"'")>-1)x.classList.add("active")});
+document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+let target=document.getElementById(r);
+if(target)target.classList.add("active");
+if(typeof syncTabbar==="function")syncTabbar(r);
+document.getElementById("title").textContent =
+r=="patient" ? greeting() :
+r=="navigation" ? "Indoor Navigation — City Care Hospital" :
+r=="staff" ? "Staff Operations — City Care Hospital" :
+"Admin Control Center — City Care Hospital";
+if(r==="admin" && typeof renderEmergencyAdminAlert==="function") renderEmergencyAdminAlert();
+window.scrollTo({top:0,behavior:"smooth"});
+}
+function role(r,b){openRole(r,b);}
+function staffCheckin(){
+let name=document.getElementById("checkinName").value.trim()||"Walk-in Patient";
+let t=queue.length?queue[queue.length-1].t+1:now+1;
+queue.push({t:t,n:name});
+document.getElementById("checkinNotice").classList.add("show");
+document.getElementById("checkinName").value="";
+render();
+}
+function section(id,b){
+document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+let target=document.getElementById(id);if(target)target.classList.add("active");
+document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));if(b)b.classList.add("active");
+document.querySelectorAll(".role").forEach(x=>x.classList.remove("active"));
+if(typeof syncTabbar==="function")syncTabbar(id);
+}
+
+function makeQR(){
+let qr=document.getElementById("qrCode");if(!qr||qr.children.length)return;
+let seed=`AURALIFE-APPOINTMENT-45-${window.selectedAppointmentFee||500}-${window.selectedAppointmentDoctor||"DOCTOR"}-UPI`;
+for(let i=0;i<441;i++){
+let cell=document.createElement("span");
+let x=i%21,y=Math.floor(i/21);
+let v=((x*17+y*31+x*y+seed.charCodeAt((x+y)%seed.length))%7)<3;
+function finder(ax,ay){
+return x>=ax&&x<ax+7&&y>=ay&&y<ay+7 &&
+((x==ax||x==ax+6||y==ay||y==ay+6)|| (x>=ax+2&&x<=ax+4&&y>=ay+2&&y<=ay+4));
+}
+v=finder(0,0)||finder(14,0)||finder(0,14)?true:v;
+cell.style.background=v?"#111":"#fff";qr.appendChild(cell);
+}}
+function openPayment(){const qr=document.getElementById("qrCode");if(qr)qr.innerHTML="";makeQR();document.getElementById("paymentModal").classList.add("show")}
+function closePayment(){document.getElementById("paymentModal").classList.remove("show")}
+function markPaid(){document.getElementById("paidNotice").classList.add("show")}
+function openModal(){document.getElementById("modal").classList.add("show")}function closeModal(){document.getElementById("modal").classList.remove("show")}
+
+function toggleChat(){document.getElementById("chat").classList.toggle("show")}
+function addMessage(text,type){
+let body=document.getElementById("chatBody");
+let div=document.createElement("div");div.className="msg "+type;div.textContent=text;
+body.appendChild(div);body.scrollTop=body.scrollHeight;
+}
+function quickAsk(text){document.getElementById("chatInput").value=text;sendChat()}
+function sendChat(){
+let input=document.getElementById("chatInput"),q=input.value.trim();if(!q)return;
+addMessage(q,"user");input.value="";
+let s=q.toLowerCase(),reply;
+if(s.includes("token")||s.includes("queue")||s.includes("wait")){
+reply="Your current demo token is #42. The live queue and estimated waiting time are shown on the Patient View. The estimate updates as patients are served.";
+}else if(s.includes("book")||s.includes("appointment")){
+reply="To book an appointment, choose a department, doctor, date and an available time slot in the Patient View, then tap “Confirm appointment & generate token”.";
+}else if(s.includes("department")||s.includes("special")){
+reply="The demo includes General Medicine, Dermatology, Orthopedics, Pediatrics and Cardiology.";
+}else if(s.includes("record")||s.includes("health")){
+reply="You can view your health record in Patient View. The demo includes blood group, allergy, last consultation and prescription information.";
+}else if(s.includes("doctor")||s.includes("available")){
+reply="Doctor availability is shown in the Doctors section and in the Admin/Staff operational views.";
+}else if(s.includes("staff")||s.includes("admin")){
+reply="This prototype lets you switch between Patient View, Staff View and Admin View using the role buttons at the top.";
+}else{
+reply="I can help with appointments, tokens, waiting time, departments, doctor availability, health records, and navigating Patient, Staff and Admin views.";
+}
+setTimeout(()=>addMessage(reply,"bot"),250);
+}
+
+let navFloor=1, mapScale=1;
+function filterDestinations(){let q=(document.getElementById('navSearch').value||'').toLowerCase();document.querySelectorAll('.dest').forEach(d=>d.style.display=d.dataset.search.includes(q)?'block':'none')}
+function setFloor(f,b){navFloor=f;document.querySelectorAll('.floor-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('mapStatus').textContent='Floor '+f+' selected'}
+function navigateTo(name,room,floor,dist,time){document.getElementById('mapTitle').textContent='Main Entrance → '+name;document.getElementById('destMapLabel').textContent=name.toUpperCase();document.getElementById('routeDistance').textContent=dist;document.getElementById('routeTime').textContent=time;document.getElementById('routeFloor').textContent='Floor '+floor;document.getElementById('mapStatus').textContent='Route ready';let d=document.getElementById('directions');d.innerHTML='<div class="step"><div class="step-icon">🚶</div><div><b>Start at Main Entrance</b><div class="small">Follow the marked accessible corridor.</div></div></div><div class="step"><div class="step-icon">↱</div><div><b>Follow signs to the central junction</b><div class="small">Use Registration as your landmark.</div></div></div>'+(floor!='1'?'<div class="step"><div class="step-icon">🛗</div><div><b>Take Elevator A to Floor '+floor+'</b><div class="small">Step-free route selected; stairs are avoided.</div></div></div>':'<div class="step"><div class="step-icon">🛗</div><div><b>Continue on Floor 1</b><div class="small">Stay on the main public corridor.</div></div></div>')+'<div class="step"><div class="step-icon">📍</div><div><b>Arrive at '+room+'</b><div class="small">Destination: '+name+'.</div></div></div>';}
+function toggleAccess(el){el.classList.toggle('good');document.getElementById('mapStatus').textContent=el.classList.contains('good')?'Accessibility preference updated':'Route preference removed'}
+function shareRoute(){alert('Demo: Route link copied — AURALIFE Hospital → General Medicine, Room 4.');}
+function showNavQR(){alert('Demo QR handoff: scan this code at the hospital kiosk to continue the same route on your phone.');}
+function zoomMap(v){mapScale=Math.max(.8,Math.min(1.35,mapScale+v*.1));document.querySelector('.map-wrap svg').style.transform='scale('+mapScale+')';document.querySelector('.map-wrap svg').style.transformOrigin='center'}
+function locateMe(){document.getElementById('mapStatus').textContent='Location set: Main Entrance'}
+
+function tick(){let d=new Date();if(document.getElementById("patient").classList.contains("active")){document.getElementById("title").textContent=greeting()}document.getElementById("clock").textContent=d.toLocaleString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+document.querySelectorAll(".slot:not(.taken)").forEach(s=>s.onclick=()=>{document.querySelectorAll(".slot").forEach(x=>x.classList.remove("selected"));s.classList.add("selected")});
+document.getElementById("date").value=new Date().toISOString().slice(0,10);render();tick();setInterval(tick,30000);setInterval(()=>{if(queue.length&&Math.random()>.65)serveNext()},30000);
+
+function changePatientLanguage(language){
+  const T={
+    English:{name:'English', emergencyTitle:'Emergency?', emergencyDesc:'Need urgent assistance? Click once to notify the doctor and Admin Dashboard for priority care.', language:'Language', emergency:'Emergency', selectedHospital:'Your selected hospital', changeHospital:'Change hospitals', hospitalAccess:'Hospital Access', workspace:'Choose your workspace', navigate:'Navigate to your appointment', token:'Your current token', wait:'Estimated waiting time', ahead:'Patients ahead', doctorRoom:'General Medicine · Room 4', book:'Book appointment', queue:'Live queue', health:'My health record', ambulance:'Hospital Ambulance Network', history:'Previous Reports & Health History', feedback:'Feedback & Rating'},
+    Telugu:{name:'తెలుగు', emergencyTitle:'అత్యవసరమా?', emergencyDesc:'తక్షణ సహాయం అవసరమా? డాక్టర్ మరియు అడ్మిన్ డ్యాష్‌బోర్డ్‌కు ప్రాధాన్యత అలర్ట్ పంపడానికి ఒక్కసారి క్లిక్ చేయండి.', language:'భాష', emergency:'అత్యవసరం', selectedHospital:'మీరు ఎంచుకున్న ఆసుపత్రి', changeHospital:'ఆసుపత్రిని మార్చండి', hospitalAccess:'ఆసుపత్రి యాక్సెస్', workspace:'మీ వర్క్‌స్పేస్‌ను ఎంచుకోండి', navigate:'మీ అపాయింట్‌మెంట్‌కు వెళ్లండి', token:'మీ ప్రస్తుత టోకెన్', wait:'అంచనా వేచి ఉండే సమయం', ahead:'మీ ముందు ఉన్న రోగులు', doctorRoom:'జనరల్ మెడిసిన్ · గది 4', book:'అపాయింట్‌మెంట్ బుక్ చేయండి', queue:'లైవ్ క్యూ', health:'నా ఆరోగ్య రికార్డు', ambulance:'ఆసుపత్రి అంబులెన్స్ నెట్‌వర్క్', history:'మునుపటి నివేదికలు & ఆరోగ్య చరిత్ర', feedback:'అభిప్రాయం & రేటింగ్'},
+    Hindi:{name:'हिन्दी', emergencyTitle:'आपातकाल?', emergencyDesc:'तुरंत सहायता चाहिए? डॉक्टर और एडमिन डैशबोर्ड को प्राथमिकता अलर्ट भेजने के लिए एक बार क्लिक करें।', language:'भाषा', emergency:'आपातकाल', selectedHospital:'आपका चुना हुआ अस्पताल', changeHospital:'अस्पताल बदलें', hospitalAccess:'अस्पताल एक्सेस', workspace:'अपना वर्कस्पेस चुनें', navigate:'अपनी अपॉइंटमेंट पर जाएँ', token:'आपका वर्तमान टोकन', wait:'अनुमानित प्रतीक्षा समय', ahead:'आपसे आगे मरीज', doctorRoom:'जनरल मेडिसिन · कमरा 4', book:'अपॉइंटमेंट बुक करें', queue:'लाइव कतार', health:'मेरा स्वास्थ्य रिकॉर्ड', ambulance:'अस्पताल एम्बुलेंस नेटवर्क', history:'पिछली रिपोर्ट और स्वास्थ्य इतिहास', feedback:'प्रतिक्रिया और रेटिंग'}
+  };
+  const t=T[language]||T.English;
+  const ids={i_emergency_title:'emergencyTitle',i_emergency_desc:'emergencyDesc',i_language_label:'language',i_emergency_btn:'emergency',i_selected_hospital:'selectedHospital',i_change_hospital:'changeHospital',i_hospital_access:'hospitalAccess',i_workspace:'workspace',i_navigate:'navigate',i_token:'token',i_wait:'wait',i_ahead:'ahead',i_doctor_room:'doctorRoom',i_book:'book',i_live_queue:'queue',i_health_record:'health',i_ambulance:'ambulance',i_history:'history',i_feedback:'feedback'};
+  Object.keys(ids).forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t[ids[id]];});
+  const note=document.getElementById('languageNote');
+  if(note){note.textContent='Language · '+t.name;note.style.display='inline-flex';}
+  try{localStorage.setItem('auralife_patient_language',language);}catch(e){}
+}
+function restorePatientLanguage(){
+  try{
+    const saved=localStorage.getItem('auralife_patient_language')||'English';
+    const select=document.getElementById('patientLanguage');
+    if(select){select.value=['English','Telugu','Hindi'].includes(saved)?saved:'English';changePatientLanguage(select.value);}
+  }catch(e){changePatientLanguage('English');}
+}
+</script>
+
+<script>
+function syncNavSearch(v){ const el=document.getElementById('navSearch'); if(el && el.value!==v) el.value=v; }
+function navigateToAppointment(){ openRole('navigation',document.querySelectorAll('.role')[1]); setTimeout(()=>{ const input=document.getElementById('navSearch'); if(input){input.value='Dr. Anjali Mehra'; filterDestinations();} navigateTo('Dr. Anjali Mehra','Room 204','2','120 m','2 min'); },60); }
+function chooseRoute(mode){ const status=document.getElementById('mapStatus'); if(status) status.textContent=mode==='accessible'?'Step-free route selected':'Fastest route selected'; }
+function startNavigation(){ const btn=document.getElementById('startNavBtn'); const prog=document.getElementById('navProgress'); const banner=document.getElementById('arrivalBanner'); if(!btn||!prog)return; btn.textContent='Navigating…'; btn.classList.add('route-active'); if(banner) banner.classList.remove('show'); let n=0; clearInterval(window.auralifeNavTimer); window.auralifeNavTimer=setInterval(()=>{ n+=10; prog.style.width=Math.min(n,100)+'%'; const st=document.getElementById('mapStatus'); if(st) st.textContent=n<100?'Navigating… '+n+'%':'Arrived'; if(n>=100){clearInterval(window.auralifeNavTimer);btn.textContent='✓ Arrived';if(banner)banner.classList.add('show');}},500); }
+function recalculateRoute(){ const st=document.getElementById('mapStatus'); if(st){st.textContent='Rerouting…';setTimeout(()=>st.textContent='New route ready',700);} }
+
+function syncNavSearch(v){const a=document.getElementById('navSearch');if(a&&a.value!==v){a.value=v;filterDestinations();}}
+function chooseRoute(mode){const st=document.getElementById('mapStatus');if(st)st.textContent=mode==='accessible'?'Step-free route selected':'Fastest route selected';}
+function startNavigation(){const btn=document.getElementById('startNavBtn'),prog=document.getElementById('navProgress'),banner=document.getElementById('arrivalBanner');if(!btn||!prog)return;btn.textContent='Navigating…';btn.classList.add('route-active');if(banner)banner.classList.remove('show');let n=0;clearInterval(window.auralifeNavTimer);window.auralifeNavTimer=setInterval(()=>{n+=10;prog.style.width=Math.min(n,100)+'%';const st=document.getElementById('mapStatus');if(st)st.textContent=n<100?'Navigating… '+n+'%':'Arrived';if(n>=100){clearInterval(window.auralifeNavTimer);btn.textContent='✓ Arrived';if(banner)banner.classList.add('show');}},350);}
+function recalculateRoute(){const st=document.getElementById('mapStatus');if(st){st.textContent='Rerouting…';setTimeout(()=>st.textContent='New route ready',700);}}
+</script>
+
+<script id="hospital-live-data">
+const hospitalData = {
+  "AuraLife City Hospital": {
+    city: "Visakhapatnam",
+    doctors: [
+      {name:"Dr. Anjali Mehra", dept:"General Medicine", fee:350, experience:"12 yrs"},
+      {name:"Dr. Rahul Varma", dept:"Cardiology", fee:650, experience:"15 yrs"},
+      {name:"Dr. Priya Nair", dept:"Pediatrics", fee:400, experience:"9 yrs"}
+    ]
+  },
+  "CarePlus Multispeciality Hospital": {
+    city: "Visakhapatnam",
+    doctors: [
+      {name:"Dr. Kiran Rao", dept:"General Medicine", fee:300, experience:"10 yrs"},
+      {name:"Dr. Sneha Reddy", dept:"Cardiology", fee:550, experience:"13 yrs"},
+      {name:"Dr. Arjun Kumar", dept:"Orthopedics", fee:450, experience:"11 yrs"}
+    ]
+  },
+  "Harbor Health Hospital": {
+    city: "Visakhapatnam",
+    doctors: [
+      {name:"Dr. Meera Shah", dept:"General Medicine", fee:280, experience:"8 yrs"},
+      {name:"Dr. Vikram Singh", dept:"Cardiology", fee:500, experience:"12 yrs"},
+      {name:"Dr. Neha Kapoor", dept:"Dermatology", fee:350, experience:"7 yrs"}
+    ]
+  },
+  "Sunrise Medical Centre": {
+    city: "Visakhapatnam",
+    doctors: [
+      {name:"Dr. Lakshmi Devi", dept:"General Medicine", fee:320, experience:"11 yrs"},
+      {name:"Dr. Aditya Rao", dept:"Cardiology", fee:600, experience:"14 yrs"},
+      {name:"Dr. Pooja Menon", dept:"Gynecology", fee:480, experience:"10 yrs"}
+    ]
+  }
+};
+
+let currentHospital = localStorage.getItem("auralifeHospital") || "AuraLife City Hospital";
+
+function getHospitalDoctors() {
+  return hospitalData[currentHospital]?.doctors || [];
+}
+
+function updateHospitalLiveExperience() {
+  const hospitalNameEls = document.querySelectorAll(
+    "#selectedHospitalName, [data-selected-hospital], .selected-hospital-name"
+  );
+  hospitalNameEls.forEach(el => el.textContent = currentHospital);
+
+  const doctorSelects = document.querySelectorAll(
+    "#doctor, select[name='doctor'], #doctorSelect"
+  );
+  const doctors = getHospitalDoctors();
+  doctorSelects.forEach(select => {
+    if (!select) return;
+    const current = select.value;
+    select.innerHTML = '<option value="">Select doctor</option>' +
+      doctors.map(d => `<option value="${htmlEscape(d.name)}" data-fee="${d.fee}">${htmlEscape(d.name)} — ${htmlEscape(d.dept)} (₹${d.fee})</option>`).join("");
+    if ([...select.options].some(o => o.value === current)) select.value = current;
+  });
+
+  const feeEls = document.querySelectorAll("#doctorFee, [data-doctor-fee]");
+  feeEls.forEach(el => {
+    const selected = doctors.find(d => d.name === (document.querySelector("#doctor, #doctorSelect")?.value));
+    el.textContent = selected ? `₹${selected.fee}` : "Select a doctor";
+  });
+
+  const doctorInfo = document.getElementById("liveDoctorInfo");
+  if (doctorInfo) {
+    doctorInfo.innerHTML = doctors.map(d =>
+      `<div class="live-doctor-row">
+        <div><strong>${htmlEscape(d.name)}</strong><span>${htmlEscape(d.dept)} · ${htmlEscape(d.experience)}</span></div>
+        <strong>₹${d.fee}</strong>
+      </div>`).join("");
+  }
+
+  const banner = document.getElementById("hospitalLiveBanner");
+  if (banner) banner.innerHTML =
+    `Live hospital experience: <strong>${htmlEscape(currentHospital)}</strong> · Doctor availability and consultation fees shown for this hospital.`;
+}
+
+function htmlEscape(value) {
+  return String(value).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s]));
+}
+
+function selectHospitalLive(name) {
+  if (!hospitalData[name]) return;
+  currentHospital = name;
+  localStorage.setItem("auralifeHospital", name);
+  updateHospitalLiveExperience();
+  if (typeof window.showPatientView === "function") window.showPatientView();
+}
+
+window.hospitalData = hospitalData;
+window.selectHospitalLive = selectHospitalLive;
+window.updateHospitalLiveExperience = updateHospitalLiveExperience;
+
+document.addEventListener("change", (e) => {
+  if (e.target && (e.target.id === "doctor" || e.target.id === "doctorSelect" || e.target.name === "doctor")) {
+    const opt = e.target.options[e.target.selectedIndex];
+    const fee = opt?.dataset?.fee;
+    document.querySelectorAll("#doctorFee, [data-doctor-fee]").forEach(el => el.textContent = fee ? `₹${fee}` : "Select a doctor");
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(updateHospitalLiveExperience, 0);
+});
+</script>
+
+
+<script id="sih-uniqueness-features">
+const ambulanceData=[
+{name:'City Care Ambulance 01',number:'108 / 24x7 desk',type:'Advanced Life Support',status:'Available',eta:'6 min'},
+{name:'City Care Ambulance 02',number:'Hospital Desk · 0891-000-1122',type:'Basic Life Support',status:'Available',eta:'9 min'},
+{name:'City Care Ambulance 03',number:'Hospital Desk · 0891-000-1133',type:'Patient Transport',status:'On trip',eta:'18 min'}
+];
+const patientHistory={
+'Demo Patient':{blood:'B+',allergy:'Penicillin',visits:[['14 Jul 2026','Dermatology','Follow-up consultation · Prescription recorded'],['12 Jun 2026','General Medicine','Blood group, allergy and baseline history updated'],['22 Mar 2026','Cardiology','ECG report uploaded · Follow-up advised']],reports:['ECG Report · 22 Mar 2026','Blood Test · 12 Jun 2026','Dermatology Prescription · 14 Jul 2026']},
+'Ramesh Iyer':{blood:'O+',allergy:'None recorded',visits:[['02 Aug 2026','General Medicine','Follow-up · Blood pressure review'],['18 May 2026','General Medicine','Initial consultation']],reports:['Blood Test · 02 Aug 2026','Prescription · 02 Aug 2026']}
+};
+function renderAmbulances(){const el=document.getElementById('ambulanceGrid');if(!el)return;el.innerHTML=ambulanceData.map((a,i)=>`<div class="ambulance-card"><div class="amb-top"><b>${a.name}</b><span class="amb-status ${a.status!=='Available'?'busy':''}">${a.status}</span></div><div class="small" style="margin-top:7px">${a.type}</div><div class="small">Contact: ${a.number}</div><div class="small">Estimated response: ${a.eta}</div><button class="btn ${a.status==='Available'?'primary':'secondary'} full" ${a.status!=='Available'?'disabled':''} onclick="requestAmbulance(${i})">${a.status==='Available'?'Book ambulance':'Currently on trip'}</button></div>`).join('');}
+function requestAmbulance(i){const a=ambulanceData[i];alert(`Demo request created for ${a.name}. Hospital control room will confirm dispatch.`);}
+function quickEmergency(){
+  const reason=document.getElementById('emergencyReason');
+  if(reason) reason.value='Other urgent condition';
+  requestEmergency();
+  const card=document.querySelector('.emergency-card');
+  if(card) card.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function requestEmergency(){
+  const reason=document.getElementById('emergencyReason')?.value||'Urgent condition';
+  const note=document.getElementById('emergencyNote')?.value.trim()||'No additional note';
+  const now=new Date();
+  const alertData={patient:'Demo Patient',reason,note,doctor:'Dr. Anjali Mehra',hospital:currentHospital||'City Care Hospital',time:now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),timestamp:now.toISOString(),status:'NEW'};
+  localStorage.setItem('auralifeEmergencyAlert',JSON.stringify(alertData));
+  const notice=document.getElementById('emergencyNotice');
+  if(notice){notice.textContent=`✓ EMERGENCY ALERT SENT. ${alertData.doctor} and the hospital admin have been notified. Priority visit requested for ${alertData.patient}.`;notice.classList.add('show');}
+  showEmergencyToast('🚨 Emergency alert sent to doctor & Admin Dashboard');
+  renderEmergencyAdminAlert();
+}
+function showEmergencyToast(message){
+  let toast=document.getElementById('emergencyToast');
+  if(!toast){toast=document.createElement('div');toast.id='emergencyToast';toast.className='emergency-toast';document.body.appendChild(toast);}
+  toast.textContent=message;toast.classList.add('show');clearTimeout(window.auralifeEmergencyToastTimer);window.auralifeEmergencyToastTimer=setTimeout(()=>toast.classList.remove('show'),4500);
+}
+function renderEmergencyAdminAlert(){
+  const box=document.getElementById('adminEmergencyAlert');if(!box)return;
+  const raw=localStorage.getItem('auralifeEmergencyAlert');if(!raw){box.classList.remove('show');return;}
+  let data;try{data=JSON.parse(raw);}catch(e){box.classList.remove('show');return;}
+  document.getElementById('adminEmergencyPatient').textContent=data.patient||'Demo Patient';document.getElementById('adminEmergencyReason').textContent=data.reason||'Urgent condition';document.getElementById('adminEmergencyDoctor').textContent=data.doctor||'Dr. Anjali Mehra';document.getElementById('adminEmergencyTime').textContent=data.time||'Just now';
+  const badge=box.querySelector('.emergency-new');if(badge){badge.textContent=data.status==='ACKNOWLEDGED'?'ACKNOWLEDGED':'NEW';badge.style.background=data.status==='ACKNOWLEDGED'?'#1c8a4b':'#d70015';}
+  box.classList.add('show');
+}
+function acknowledgeEmergency(){
+  const raw=localStorage.getItem('auralifeEmergencyAlert');if(!raw)return;let data;try{data=JSON.parse(raw);}catch(e){return;}data.status='ACKNOWLEDGED';localStorage.setItem('auralifeEmergencyAlert',JSON.stringify(data));
+  const box=document.getElementById('adminEmergencyAlert');if(box){const row=box.querySelector('.emergency-priority-row');if(row)row.innerHTML='<b>✓ Doctor notified:</b> Dr. Anjali Mehra has received the priority visit request. Patient remains at the top of the demo emergency queue.';}renderEmergencyAdminAlert();showEmergencyToast('✓ Doctor notification acknowledged');
+}
+function clearEmergencyAlert(){localStorage.removeItem('auralifeEmergencyAlert');renderEmergencyAdminAlert();}
+window.addEventListener('storage',e=>{if(e.key==='auralifeEmergencyAlert')renderEmergencyAdminAlert();});
+
+function searchPatientHistory(){const q=(document.getElementById('historyPatientSearch')?.value||'').trim().toLowerCase();const out=document.getElementById('historyLookupResult');if(!out)return;if(!q){out.innerHTML='<div class="alert">Please enter a patient name.</div>';return}const key=Object.keys(patientHistory).find(k=>k.toLowerCase()===q)||Object.keys(patientHistory).find(k=>k.toLowerCase().includes(q));if(!key){out.innerHTML='<div class="alert danger">No demo record found for this patient. Ask the patient to register or confirm the name.</div>';return}const p=patientHistory[key];out.innerHTML=`<div class="alert success">✓ Authorized record opened for <b>${key}</b>. Previous reports are available for doctor review.</div><div class="history-grid"><div><div class="history-item"><b>Blood group</b><div class="small">${p.blood}</div></div><div class="history-item"><b>Allergy</b><div class="small">${p.allergy}</div></div>${p.visits.map(v=>`<div class="history-item"><b>${v[0]} · ${v[1]}</b><div class="small">${v[2]}</div></div>`).join('')}</div><div><div class="history-item"><b>Previous reports</b>${p.reports.map(r=>`<div class="small" style="margin-top:7px">📄 ${r}</div>`).join('')}</div><div class="alert">🔐 Demo audit: record access logged under the authorized Admin/Doctor workspace.</div></div></div>`;}
+renderAmbulances();renderEmergencyAdminAlert();setInterval(renderEmergencyAdminAlert,1000);
+</script>
+
+<script id="current-location-feature">
+/* SIH 2026 — real device location detection for the patient */
+let detectedLatitude = null;
+let detectedLongitude = null;
+
+function setLocationUI(title, coordsText, statusText){
+  const loc = document.getElementById('currentLocation');
+  const coords = document.getElementById('locationCoords');
+  const status = document.getElementById('locationStatus');
+  if(loc) loc.textContent = title;
+  if(coords) coords.textContent = coordsText;
+  if(status) status.textContent = statusText;
+}
+
+function showLocationError(message){
+  setLocationUI('Location not detected', message, '⚠️ Location permission needed');
+  alert(message);
+}
+
+async function reverseGeocode(lat, lon){
+  try{
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&zoom=14&addressdetails=1`;
+    const response = await fetch(url, {headers:{'Accept':'application/json'}});
+    if(!response.ok) throw new Error('Reverse geocoding failed');
+    const data = await response.json();
+    const a = data.address || {};
+    const area = a.suburb || a.neighbourhood || a.village || a.town || a.city_district || a.city || a.county || 'Detected area';
+    const city = a.city || a.town || a.municipality || '';
+    return city && city !== area ? `${area}, ${city}` : area;
+  }catch(e){
+    return `GPS location (${lat.toFixed(5)}, ${lon.toFixed(5)})`;
+  }
+}
+
+function renderNearbyFromDetectedLocation(detected){
+  /* The hospital cards remain prototype/demo data. In production, replace this
+     with a verified hospital API/database using the detected latitude/longitude. */
+  const grid = document.getElementById('nearbyHospitals');
+  const count = document.getElementById('nearbyHospitalCount');
+  const names = (typeof hospitalData === 'object' && hospitalData) ? Object.keys(hospitalData) : [];
+  if(grid && names.length){
+    const distances = ['1.2 km','2.6 km','3.4 km','5.1 km','6.8 km'];
+    grid.innerHTML = names.map((name,i)=>{
+      const h = hospitalData[name];
+      const depts = [...new Set(h.doctors.map(d=>d.dept))].slice(0,3).join(' · ');
+      const active = (typeof currentHospital !== 'undefined' && name === currentHospital) ? ' active' : '';
+      return `<div class="nearby-hospital${active}" onclick="chooseNearbyHospital(${JSON.stringify(name)},this)">`
+        + `<b>${name}</b>`
+        + `<div class="hospital-distance">${distances[i % distances.length]} away · ${h.city}</div>`
+        + `<div class="hospital-meta">${h.doctors.length} doctors · ${depts}</div></div>`;
+    }).join('');
+  }
+  if(count) count.textContent = detected
+    ? 'Nearby hospitals based on detected location'
+    : names.length + ' hospitals nearby';
+}
+
+function chooseNearbyHospital(name, el){
+  document.querySelectorAll('.nearby-hospital').forEach(x=>x.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if(typeof selectHospitalLive === 'function') selectHospitalLive(name);
+}
+
+function detectUserLocation(){
+  if(!navigator.geolocation){
+    showLocationError('This browser does not support location detection. Please use a modern browser or the demo location.');
+    return;
+  }
+
+  setLocationUI('Detecting your current location…','Please allow location access when the browser asks.','📡 Detecting location…');
+
+  navigator.geolocation.getCurrentPosition(async position => {
+    detectedLatitude = position.coords.latitude;
+    detectedLongitude = position.coords.longitude;
+
+    const accuracy = Math.round(position.coords.accuracy || 0);
+    const place = await reverseGeocode(detectedLatitude, detectedLongitude);
+
+    setLocationUI(
+      place,
+      `GPS: ${detectedLatitude.toFixed(5)}, ${detectedLongitude.toFixed(5)} · Accuracy ~${accuracy} m`,
+      '✓ Live location detected'
+    );
+
+    const actions = document.getElementById('liveLocationActions');
+    if(actions) actions.style.display = 'flex';
+
+    renderNearbyFromDetectedLocation(true);
+
+    try{
+      localStorage.setItem('auralife_detected_location', JSON.stringify({
+        latitude: detectedLatitude,
+        longitude: detectedLongitude,
+        place,
+        accuracy,
+        detectedAt: new Date().toISOString()
+      }));
+    }catch(e){}
+  }, error => {
+    let message = 'Unable to detect your location.';
+    if(error.code === 1) message = 'Location permission was denied. Please allow location access in the browser settings, then try again.';
+    else if(error.code === 2) message = 'Your location could not be determined. Check GPS/location services and try again.';
+    else if(error.code === 3) message = 'Location detection timed out. Please try again.';
+    showLocationError(message);
+  }, {
+    enableHighAccuracy: true,
+    timeout: 15000,
+    maximumAge: 0
+  });
+}
+
+function demoLocation(){
+  detectedLatitude = null;
+  detectedLongitude = null;
+  setLocationUI(
+    'MVP Colony, Visakhapatnam',
+    'Demo location selected — GPS is not being used.',
+    '🎯 Demo location'
+  );
+  const actions = document.getElementById('liveLocationActions');
+  if(actions) actions.style.display = 'none';
+  renderNearbyFromDetectedLocation(true);
+}
+
+function openDetectedLocation(){
+  if(detectedLatitude === null || detectedLongitude === null){
+    alert('Please choose your current location first.');
+    return;
+  }
+  const mapUrl = `https://www.openstreetmap.org/?mlat=${detectedLatitude}&mlon=${detectedLongitude}#map=16/${detectedLatitude}/${detectedLongitude}`;
+  window.open(mapUrl, '_blank');
+}
+
+/* Restore the last detected location for the prototype session. */
+document.addEventListener('DOMContentLoaded', () => {
+  try{
+    const saved = JSON.parse(localStorage.getItem('auralife_detected_location') || 'null');
+    if(saved && typeof saved.latitude === 'number' && typeof saved.longitude === 'number'){
+      detectedLatitude = saved.latitude;
+      detectedLongitude = saved.longitude;
+      setLocationUI(
+        saved.place || 'Previously detected location',
+        `GPS: ${saved.latitude.toFixed(5)}, ${saved.longitude.toFixed(5)} · Accuracy ~${Math.round(saved.accuracy || 0)} m`,
+        '✓ Location available'
+      );
+      const actions = document.getElementById('liveLocationActions');
+      if(actions) actions.style.display = 'flex';
+    }
+  }catch(e){}
+});
+</script>
+
+<script id="expanded-specialist-matching">
+/* AURALIFE — Expanded Problem → Specialist → Doctor matching (demo data) */
+const specialistDirectory = {
+  fever:{problem:"Fever, cold or general weakness",dept:"General Medicine",doctor:"Dr. Ravi Kumar",experience:"10 yrs"},
+  skin:{problem:"Skin rash, itching or skin problem",dept:"Dermatology",doctor:"Dr. Bindhu Reddy",experience:"9 yrs"},
+  bone:{problem:"Bone, joint or muscle pain",dept:"Orthopedics",doctor:"Dr. Ravi Teja",experience:"11 yrs"},
+  heart:{problem:"Chest discomfort or heart-related concern",dept:"Cardiology",doctor:"Dr. Rahul Varma",experience:"15 yrs"},
+  child:{problem:"Child health problem",dept:"Pediatrics",doctor:"Dr. Bindhu Lakshmi",experience:"8 yrs"},
+  stomach:{problem:"Stomach or digestive problem",dept:"Gastroenterology",doctor:"Dr. Suresh Rao",experience:"12 yrs"},
+  women:{problem:"Women's health concern",dept:"Gynecology",doctor:"Dr. Bindhu Priya",experience:"10 yrs"},
+  eye:{problem:"Eye-related problem",dept:"Ophthalmology",doctor:"Dr. Bindhu Rao",experience:"9 yrs"},
+  ear:{problem:"Ear, nose or throat problem",dept:"ENT",doctor:"Dr. Ravi Sharma",experience:"10 yrs"},
+  neuro:{problem:"Headache, dizziness or nerve-related problem",dept:"Neurology",doctor:"Dr. Manoj Joshi",experience:"13 yrs"},
+  breathing:{problem:"Cough, asthma or breathing problem",dept:"Pulmonology",doctor:"Dr. Arjun Kumar",experience:"11 yrs"},
+  kidney:{problem:"Kidney, urinary or bladder problem",dept:"Urology",doctor:"Dr. Vikram Singh",experience:"12 yrs"},
+  dental:{problem:"Tooth or gum problem",dept:"Dentistry",doctor:"Dr. Kiran Rao",experience:"10 yrs"},
+  mental:{problem:"Stress, sleep or mental-wellness concern",dept:"Psychiatry",doctor:"Dr. Meera Shah",experience:"8 yrs"},
+  "women-pregnancy":{problem:"Pregnancy or maternity care",dept:"Obstetrics & Gynecology",doctor:"Dr. Lakshmi Devi",experience:"11 yrs"}
+};
+
+function recommendSpecialist(){
+  const key=document.getElementById('healthProblem')?.value;
+  const out=document.getElementById('specialistResult');
+  if(!out)return;
+  if(!key || !specialistDirectory[key]){
+    out.style.display='none';
+    out.innerHTML='';
+    return;
+  }
+  const s=specialistDirectory[key];
+  const doctors=bookingSpecialistDoctors.filter(x=>x.dept===s.dept);
+  out.style.display='block';
+  out.innerHTML=
+    `<div class="small">Recommended department</div>
+     <div class="specialist-doctor">${htmlEscape(s.dept)}</div>
+     <div class="small" style="margin-top:10px">Select a doctor from the available ${doctors.length} option(s):</div>
+     <div class="doctor-choice-list">${doctors.map((d,i)=>`<button type="button" class="doctor-choice ${d.name===s.doctor?'recommended':''}" onclick="selectSpecialistDoctor('${htmlEscape(d.name)}','${htmlEscape(s.dept)}',this)">
+       <span class="avatar">${htmlEscape(d.name.replace('Dr. ','').split(' ').map(x=>x[0]).join('').slice(0,2))}</span>
+       <span class="doctor-choice-text"><b>${htmlEscape(d.name)}</b><small>${d.name===s.doctor?'Recommended for your selected problem':'Available specialist'}</small></span>
+       <span class="doctor-choice-check">Select</span>
+     </button>`).join('')}</div>
+     <div class="small" style="margin-top:9px">Problem: ${htmlEscape(s.problem)}. Choose the doctor you prefer, then continue with date and time.</div>`;
+}
+
+function selectSpecialistDoctor(doctor,dept,button){
+  const deptSelect=document.getElementById('dept');
+  if(deptSelect)deptSelect.value=dept;
+  filterDoctorsByDepartment(doctor);
+  document.querySelectorAll('.doctor-choice').forEach(x=>x.classList.remove('selected'));
+  if(button)button.classList.add('selected');
+  const note=document.getElementById('doctorListNote');
+  if(note)note.textContent=doctor+' selected. Choose your preferred date and available time slot below.';
+  document.getElementById('i_book')?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function bookRecommendedDoctor(doctor,dept){
+  const selects=document.querySelectorAll('#doctor, #doctorSelect, select[name="doctor"]');
+  selects.forEach(select=>{
+    const match=[...select.options].find(o=>o.value===doctor || o.textContent.includes(doctor));
+    if(match) select.value=match.value;
+  });
+  const deptSelect=document.getElementById('dept');
+  if(deptSelect){
+    const match=[...deptSelect.options].find(o=>o.textContent===dept);
+    if(match) deptSelect.value=match.textContent;
+  }
+  const book=document.getElementById('i_book');
+  if(book) book.scrollIntoView({behavior:'smooth',block:'center'});
+  showEmergencyToast(`✓ ${doctor} selected for ${dept}`);
+}
+window.specialistDirectory=specialistDirectory;
+window.recommendSpecialist=recommendSpecialist;
+window.bookRecommendedDoctor=bookRecommendedDoctor;
+</script>
+<script>document.addEventListener("DOMContentLoaded", restorePatientLanguage);
+document.addEventListener("DOMContentLoaded", function(){try{renderNearbyFromDetectedLocation(false);}catch(e){}});</script>
+
+<script id="specialist-booking-doctors">
+const bookingSpecialistDoctors = [
+ {name:"Dr. Anjali Mehra",dept:"General Medicine",fee:500},{name:"Dr. Rahul Varma",dept:"Cardiology",fee:650},{name:"Dr. Priya Nair",dept:"Pediatrics",fee:450},
+ {name:"Dr. Kiran Rao",dept:"General Medicine",fee:450},{name:"Dr. Sneha Reddy",dept:"Cardiology",fee:700},{name:"Dr. Arjun Kumar",dept:"Orthopedics",fee:600},
+ {name:"Dr. Meera Shah",dept:"Psychiatry",fee:550},{name:"Dr. Vikram Singh",dept:"Urology",fee:600},{name:"Dr. Neha Kapoor",dept:"Dermatology",fee:500},
+ {name:"Dr. Lakshmi Devi",dept:"Obstetrics & Gynecology",fee:650},{name:"Dr. Aditya Rao",dept:"Cardiology",fee:750},{name:"Dr. Pooja Menon",dept:"Gynecology",fee:550},
+ {name:"Dr. Ravi Kumar",dept:"General Medicine",fee:400},{name:"Dr. Bindhu Reddy",dept:"Dermatology",fee:450},{name:"Dr. Ravi Teja",dept:"Orthopedics",fee:550},
+ {name:"Dr. Bindhu Lakshmi",dept:"Pediatrics",fee:400},{name:"Dr. Suresh Rao",dept:"Gastroenterology",fee:600},{name:"Dr. Bindhu Priya",dept:"Gynecology",fee:500},
+ {name:"Dr. Bindhu Rao",dept:"Ophthalmology",fee:500},{name:"Dr. Ravi Sharma",dept:"ENT",fee:450},{name:"Dr. Manoj Joshi",dept:"Neurology",fee:700},
+ {name:"Dr. Kiran Rao",dept:"Dentistry",fee:400},{name:"Dr. Arjun Kumar",dept:"Pulmonology",fee:600},{name:"Dr. Vikram Singh",dept:"Urology",fee:600}
+];
+function updateAppointmentFee(doctorName){
+ const doctor=bookingSpecialistDoctors.find(x=>x.name===doctorName);
+ const amount=doctor?.fee || 500;
+ const dept=doctor?.dept || document.getElementById('dept')?.value || 'General Medicine';
+ const name=doctor?.name || 'Select a doctor';
+ const amountText=`₹${amount}`;
+ const set=(id,text)=>{const el=document.getElementById(id);if(el)el.textContent=text;};
+ set('appointmentFeeAmount',amountText); set('appointmentFeeDescription',`For ${dept} · ${name}`);
+ set('feeDoctor',name); set('feeDepartment',dept); set('feeConsultation',amountText);
+ set('paymentDoctorInfo',`${name} · ${dept}`); set('paymentFeeAmount',amountText);
+ window.selectedAppointmentFee=amount; window.selectedAppointmentDoctor=name;
+}
+function filterDoctorsByDepartment(preferredDoctor){
+ const dept=document.getElementById('dept'), sel=document.getElementById('doctorSelect'); if(!dept||!sel)return;
+ const d=dept.value; const doctors=bookingSpecialistDoctors.filter(x=>x.dept===d);
+ sel.innerHTML=doctors.length?'<option value="">Select a doctor</option>'+doctors.map(x=>`<option value="${htmlEscape(x.name)}" data-fee="${x.fee}">${htmlEscape(x.name)} — ₹${x.fee}</option>`).join(''):'<option value="">No doctors available</option>';
+ if(preferredDoctor){const opt=[...sel.options].find(o=>o.value===preferredDoctor);if(opt)sel.value=preferredDoctor;}
+ const note=document.getElementById('doctorListNote'); if(note)note.textContent=doctors.length?`${doctors.length} doctor(s) available in ${d}. Select any doctor to book an appointment.`:`No demo doctors are currently listed for ${d}.`;
+ updateAppointmentFee(sel.value);
+}
+
+function bookRecommendedDoctor(doctor,dept){ const ds=document.getElementById('dept'); if(ds){ds.value=dept;filterDoctorsByDepartment(doctor);} document.getElementById('appointmentFee')?.scrollIntoView({behavior:'smooth',block:'center'}); }
+document.addEventListener('DOMContentLoaded',()=>filterDoctorsByDepartment());
+document.addEventListener('change',(e)=>{ if(e.target?.id==='doctorSelect'){ updateAppointmentFee(e.target.value); } });
+</script>
+
+<script id="auralife-mobile-shell">
+/* ---------------------------------------------------------------------------
+   AURALIFE — mobile shell: navigation drawer, bottom tab bar, responsive tables
+   --------------------------------------------------------------------------- */
+function openDrawer(){
+  document.body.classList.add('drawer-open');
+  document.body.classList.add('no-scroll');
+}
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  document.body.classList.remove('no-scroll');
+}
+function toggleDrawer(){
+  document.body.classList.contains('drawer-open') ? closeDrawer() : openDrawer();
+}
+
+/* Bottom-tab navigation reuses the sidebar handlers so state stays in sync. */
+function mobileGo(id, el){
+  closeDrawer();
+  var target = null;
+  document.querySelectorAll('.nav').forEach(function(n){
+    if((n.getAttribute('onclick')||'').indexOf("'"+id+"'") > -1) target = n;
+  });
+  if(target){ target.click(); }
+  else if(typeof section === 'function'){ section(id, null); }
+  syncTabbar(id);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* Keep the tab bar highlight aligned with whichever view is showing. */
+function syncTabbar(id){
+  var map = {dashboard:0, patient:0, appointments:1, queue:2, navigation:3};
+  var items = document.querySelectorAll('.tabbar-item');
+  items.forEach(function(b){ b.classList.remove('active'); });
+  var i = map[id];
+  if(typeof i === 'number' && items[i]) items[i].classList.add('active');
+}
+
+/* Close the drawer whenever a destination inside it is chosen. */
+document.addEventListener('click', function(e){
+  var hit = e.target.closest ? e.target.closest('.side .nav, .side .role') : null;
+  if(hit) closeDrawer();
+}, true);
+
+/* Escape closes the drawer; a resize back to desktop resets it. */
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+window.addEventListener('resize', function(){ if(window.innerWidth > 900) closeDrawer(); });
+
+/* Give every table cell its column name so narrow screens can stack them. */
+function enhanceTables(root){
+  (root||document).querySelectorAll('table').forEach(function(t){
+    var headRow = t.querySelector('tr');
+    if(!headRow || !headRow.querySelector('th')) return;
+    headRow.classList.add('t-head');
+    var heads = Array.prototype.map.call(headRow.children, function(c){ return c.textContent.trim(); });
+    t.querySelectorAll('tr').forEach(function(r){
+      if(r === headRow) return;
+      Array.prototype.forEach.call(r.children, function(c, i){
+        if(heads[i] && !c.hasAttribute('data-label')) c.setAttribute('data-label', heads[i]);
+      });
+    });
+    if(!t.parentElement.classList.contains('table-wrap')){
+      var wrap = document.createElement('div');
+      wrap.className = 'table-wrap';
+      t.parentNode.insertBefore(wrap, t);
+      wrap.appendChild(t);
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  enhanceTables();
+  var active = document.querySelector('.view.active');
+  syncTabbar(active ? active.id : 'dashboard');
+});
+</script>
+</body></html>

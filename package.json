@@ -1,0 +1,16 @@
+{
+  "name": "auralife",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AURALIFE \u2014 connected hospital care platform (Express API + React/JSX client)",
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "seed": "npm --prefix server run seed",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "node scripts/dev.js",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "test": "npm --prefix server test"
+  }
+}
