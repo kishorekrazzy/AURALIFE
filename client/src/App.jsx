@@ -4,8 +4,10 @@ import { useResource } from './hooks/useResource.js';
 import { Rail, AppBar, TabBar, useDrawer, NAV_ITEMS } from './components/Shell.jsx';
 import Assistant from './components/Assistant.jsx';
 import Notifications, { readIds } from './components/Notifications.jsx';
+import UtilityMenu from './components/UtilityMenu.jsx';
 import { Icon } from './components/Icons.jsx';
 import { ToastStack, Banner } from './components/ui.jsx';
+import { useLanguage } from './i18n/LanguageContext.jsx';
 
 import Dashboard from './views/Dashboard.jsx';
 import Appointments from './views/Appointments.jsx';
@@ -29,23 +31,11 @@ const VIEWS = {
   admin: Admin,
 };
 
-const TITLES = {
-  dashboard: 'Patient Dashboard',
-  appointments: 'Appointments',
-  queue: 'Live Queue',
-  records: 'Health Records',
-  doctors: 'Doctors & Departments',
-  analytics: 'Hospital Analytics',
-  navigation: 'Indoor Navigation',
-  staff: 'Staff Workspace',
-  admin: 'Admin Console',
-};
-
 const ROLES = [
-  { id: 'dashboard', label: 'Patient' },
-  { id: 'navigation', label: 'Maps' },
-  { id: 'staff', label: 'Staff' },
-  { id: 'admin', label: 'Admin' },
+  { id: 'dashboard', labelKey: 'roles.patient' },
+  { id: 'navigation', labelKey: 'roles.maps' },
+  { id: 'staff', labelKey: 'roles.staff' },
+  { id: 'admin', labelKey: 'roles.admin' },
 ];
 
 const read = (key, fallback) => {
@@ -61,6 +51,7 @@ const validView = (id) => (Object.prototype.hasOwnProperty.call(VIEWS, id) ? id 
 const viewFromHash = () => validView((window.location.hash || '').replace(/^#\/?/, ''));
 
 export default function App() {
+  const { t } = useLanguage();
   const [view, setView] = useState(viewFromHash);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [assistantOpen, setAssistantOpen] = useState(false);
@@ -170,6 +161,7 @@ export default function App() {
         onMenu={() => setDrawerOpen(true)}
         onAssistant={() => setNotifOpen(true)}
         alerts={unread}
+        patientName={patientName}
       />
       {drawerOpen && (
         <button
@@ -192,7 +184,7 @@ export default function App() {
         <main data-view={view}>
           <header className="topbar">
             <div>
-              <h1>{TITLES[view]}</h1>
+              <h1>{t(`titles.${view}`)}</h1>
               <p className="sub">
                 {hospital ? `${hospital.name} · ` : ''}
                 {now.toLocaleDateString('en-IN', {
@@ -208,7 +200,7 @@ export default function App() {
                 type="button"
                 className={`role bell ${unread ? 'has-unread' : ''}`.trim()}
                 onClick={() => setNotifOpen(true)}
-                aria-label={unread ? `Notifications, ${unread} unread` : 'Notifications'}
+                aria-label={unread ? `${t('notifications.title')}, ${unread}` : t('notifications.title')}
               >
                 <Icon.alert style={{ width: 15, height: 15 }} />
                 {unread > 0 && <i className="role-badge">{unread}</i>}
@@ -220,17 +212,17 @@ export default function App() {
                   className={`role ${view === r.id ? 'active' : ''}`.trim()}
                   onClick={() => navigate(r.id)}
                 >
-                  {r.label}
+                  {t(r.labelKey)}
                 </button>
               ))}
+              <UtilityMenu patientName={patientName} />
             </div>
           </header>
 
           {!online && !health.loading && (
             <Banner tone="danger">
-              <strong>The AURALIFE API is not responding.</strong> Nothing on this screen is
-              simulated, so views will stay empty until the server is running. Start it with{' '}
-              <code>npm start</code> in <code>/server</code>.
+              <strong>{t('offline.title')}</strong> {t('offline.body')}{' '}
+              <code>{t('offline.cmd')}</code> {t('offline.in')} <code>/server</code>.
             </Banner>
           )}
 

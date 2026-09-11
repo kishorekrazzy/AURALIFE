@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Empty, ErrorState, Loading } from './ui.jsx';
 import { Icon } from './Icons.jsx';
 import { UI } from './HomeArt.jsx';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const READ_KEY = 'auralife.readNotifications';
 
@@ -48,6 +49,7 @@ const relativeTime = (iso) => {
  * this?" so a patient can check any number we put in front of them.
  */
 export default function Notifications({ open, onClose, feed, onAction, onSeen }) {
+  const { t } = useLanguage();
   const [read, setRead] = useState(readIds);
   const [expanded, setExpanded] = useState(null);
 
@@ -81,10 +83,10 @@ export default function Notifications({ open, onClose, feed, onAction, onSeen })
       <aside className="notif-panel" role="dialog" aria-label="Notifications">
         <header className="notif-head">
           <div>
-            <b>Notifications</b>
-            <small>{items.length ? `${items.length} active` : 'Nothing needs attention'}</small>
+            <b>{t('notifications.title')}</b>
+            <small>{items.length ? t('notifications.active', { n: items.length }) : t('notifications.empty')}</small>
           </div>
-          <button type="button" className="chat-close" onClick={onClose} aria-label="Close">
+          <button type="button" className="chat-close" onClick={onClose} aria-label={t('notifications.close')}>
             <Icon.close style={{ width: 15, height: 15 }} />
           </button>
         </header>

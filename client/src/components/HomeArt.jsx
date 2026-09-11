@@ -578,5 +578,25 @@ export const UI = {
       <path d="M17 8v12m0 0 3-3m-3 3-3-3" />
     </svg>
   ),
+
+  // ── Globe: language / region switcher ──
+  globe: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
+      <circle cx="12" cy="12" r="8.4" />
+      <path d="M3.6 12h16.8M12 3.6c2.4 2.3 3.7 5.2 3.7 8.4s-1.3 6.1-3.7 8.4c-2.4-2.3-3.7-5.2-3.7-8.4S9.6 5.9 12 3.6Z" />
+    </svg>
+  ),
+
+  // ── Feedback: a speech bubble holding a star rating ──
+  feedback: (p) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
+      <path d="M4 5.6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8.4a2 2 0 0 1-2 2H9.4L5.5 19v-3H6a2 2 0 0 1-2-2Z" />
+      <path
+        d="m12 6.8 1.1 2.28 2.5.37-1.8 1.77.42 2.48L12 12.5l-2.22 1.2.42-2.48-1.8-1.77 2.5-.37Z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  ),
 };
 

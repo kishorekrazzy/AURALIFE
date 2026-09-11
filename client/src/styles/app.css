@@ -3078,16 +3078,29 @@ tbody tr:hover td {
 }
 
 /* The home screen supplies its own header (greeting + headline), so the
-   generic page title bar is suppressed there — as in the reference. */
-main[data-view='dashboard'] > .topbar {
+   generic page title is suppressed there — as in the reference. The language
+   and feedback capsule stays, right-aligned, so it is reachable from the
+   home page on desktop too (on mobile the app bar already carries it). */
+main[data-view='dashboard'] > .topbar > div:first-child {
   display: none;
+}
+main[data-view='dashboard'] > .topbar {
+  border-bottom: 0;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  justify-content: flex-end;
+}
+@media (max-width: 900px) {
+  main[data-view='dashboard'] > .topbar {
+    display: none;
+  }
 }
 main[data-view='dashboard'] {
   padding-top: 18px;
 }
 @media (min-width: 901px) {
   main[data-view='dashboard'] {
-    padding-top: 28px;
+    padding-top: 12px;
   }
 }
 
@@ -3610,4 +3623,162 @@ main[data-view='dashboard'] {
   margin: 8px 0;
   padding-left: 18px;
   line-height: 1.6;
+}
+
+/* ==========================================================================
+   UTILITY ICONS — language switcher + feedback shortcut
+   Two plain icon buttons that read as ordinary members of whichever row they
+   sit in, rather than a shape of their own: on desktop they match the
+   role-switch pills exactly (same height, border, shadow); on the mobile app
+   bar they match the square icon buttons either side of them.
+   ========================================================================== */
+.util-lang {
+  position: relative;
+  flex: none;
+  display: flex;
+}
+
+.util-icon-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--ink-2);
+  transition: background var(--fast), color var(--fast);
+}
+.util-icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Desktop: an icon-only pill, identical in height/border/shadow to the
+   Patient / Maps / Staff / Admin buttons beside it. */
+.role-switch .util-icon-btn {
+  min-height: 36px;
+  width: 36px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--e1);
+}
+.role-switch .util-icon-btn:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+/* Mobile app bar: matches the menu/notification squares either side. */
+.appbar .util-icon-btn {
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: var(--r-sm);
+  background: var(--fill);
+  color: var(--ink);
+}
+.appbar .util-icon-btn:active {
+  background: var(--fill-2);
+}
+.appbar .util-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  min-width: 150px;
+  padding: 6px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--e3);
+  display: grid;
+  gap: 2px;
+  animation: pop 0.16s var(--ease-out) both;
+}
+.lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: var(--r-xs);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 550;
+  cursor: pointer;
+  text-align: left;
+}
+.lang-option:hover {
+  background: var(--fill);
+}
+.lang-option.active {
+  background: var(--blue-soft);
+  color: var(--blue-ink);
+  font-weight: 650;
+}
+.lang-option svg {
+  color: var(--blue);
+  flex: none;
+}
+
+/* The popover opens to the left on mobile so it never runs off-screen. */
+@media (max-width: 900px) {
+  .appbar .lang-menu {
+    right: -6px;
+  }
+}
+
+/* ---------------------------------------------------------------- feedback */
+.feedback-visit {
+  margin-top: 14px;
+}
+.feedback-visit-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.feedback-visit-card {
+  padding: 12px 13px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+}
+.feedback-visit-card b {
+  display: block;
+  font-size: 13.5px;
+}
+.feedback-visit-card span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.feedback-visit-card.is-empty {
+  background: var(--warn-soft);
+  border-color: transparent;
+}
+.feedback-visit-card.is-empty b {
+  color: var(--warn);
+}
+
+/* On mobile, the app bar already carries the language/feedback icons as part
+   of the persistent global header — showing them again inside the per-view
+   title row (which also appears on mobile) would duplicate them. */
+@media (max-width: 900px) {
+  .role-switch .util-lang,
+  .role-switch > .util-icon-btn {
+    display: none;
+  }
 }

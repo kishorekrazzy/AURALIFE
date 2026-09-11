@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import api from '../api/client.js';
 import { Icon } from './Icons.jsx';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
+// Sent verbatim to the server's keyword-matching assistant, so these stay in
+// English regardless of app language — translating them would stop the
+// server from recognising the question.
 const QUICK = [
   'What is my token?',
   'How long is the wait?',
@@ -15,16 +19,12 @@ const QUICK = [
  * The server answers from stored records and replies "I don't have data for
  * that" when no intent matches, so there is no path by which this component can
  * present an invented answer. Answers carry the records they were built from,
- * shown under each reply.
+ * shown under each reply. The server's own answers are generated in English;
+ * only this component's static chrome follows the app language.
  */
 export default function Assistant({ open, onClose, patientName }) {
-  const [messages, setMessages] = useState([
-    {
-      role: 'bot',
-      text:
-        'Hi, I am the AURALIFE assistant. I answer from this hospital’s live records — tokens, waiting time, departments, doctors, fees, health records, emergencies and navigation. If I do not have the data, I will say so rather than guess.',
-    },
-  ]);
+  const { t } = useLanguage();
+  const [messages, setMessages] = useState([{ role: 'bot', text: t('assistant.greeting') }]);
   const [input, setInput] = useState('');
   const [pending, setPending] = useState(false);
   const bodyRef = useRef(null);
@@ -32,6 +32,12 @@ export default function Assistant({ open, onClose, patientName }) {
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
   }, [messages, open]);
+
+  // Re-translate the opening greeting if the language changes before the
+  // patient has actually asked anything.
+  useEffect(() => {
+    setMessages((m) => (m.length === 1 && m[0].role === 'bot' ? [{ role: 'bot', text: t('assistant.greeting') }] : m));
+  }, [t]);
 
   async function send(text) {
     const question = (text ?? input).trim();
@@ -55,7 +61,7 @@ export default function Assistant({ open, onClose, patientName }) {
         ...m,
         {
           role: 'bot',
-          text: `I could not reach the server, so I have no answer for that. (${err.message})`,
+          text: `${t('assistant.unreachable')} (${err.message})`,
           answered: false,
         },
       ]);
@@ -70,8 +76,8 @@ export default function Assistant({ open, onClose, patientName }) {
     <div className="chat" role="dialog" aria-label="AURALIFE assistant">
       <header className="chat-head">
         <div>
-          <b>AURALIFE Assistant</b>
-          <small>Answers from live hospital records only</small>
+          <b>AURALIFE {t('assistant.name')}</b>
+          <small>{t('assistant.subtitle')}</small>
         </div>
         <button type="button" className="chat-close" onClick={onClose} aria-label="Close assistant">
           <Icon.close style={{ width: 15, height: 15 }} />
@@ -86,7 +92,9 @@ export default function Assistant({ open, onClose, patientName }) {
           >
             {m.text}
             {m.grounding && m.grounding.length > 0 && (
-              <span className="msg-source">Source: {m.grounding.join(', ')}</span>
+              <span className="msg-source">
+                {t('assistant.source')}: {m.grounding.join(', ')}
+              </span>
             )}
           </div>
         ))}
@@ -115,11 +123,11 @@ export default function Assistant({ open, onClose, patientName }) {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask about your visit…"
-          aria-label="Message"
+          placeholder={t('assistant.placeholder')}
+          aria-label={t('assistant.placeholder')}
         />
         <button type="submit" disabled={pending || !input.trim()}>
-          Send
+          {t('assistant.send')}
         </button>
       </form>
     </div>

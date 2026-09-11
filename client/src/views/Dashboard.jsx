@@ -4,6 +4,7 @@ import { useResource } from '../hooks/useResource.js';
 import { Empty, formatDate } from '../components/ui.jsx';
 import { Icon } from '../components/Icons.jsx';
 import EmergencyDialog from '../components/EmergencyDialog.jsx';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import {
   ServiceIcon,
   ECGPulseChart,
@@ -14,74 +15,24 @@ import {
 
 const doctorImage = '/doctor-transparent.png';
 
-/* 4 Main Services matching Reference Image 1 */
+/* 4 Main Services matching Reference Image 1 — copy comes from the language
+   dictionary (home.services_<key>_title / _sub) so it follows the app language. */
 const SERVICES = [
-  {
-    key: 'consultation',
-    title: 'Doctor',
-    sub: 'Consultation',
-    icon: ServiceIcon.consultation,
-    bg: 'var(--pastel-blue)',
-    color: 'var(--pastel-blue-icon)',
-    go: 'doctors',
-  },
-  {
-    key: 'medication',
-    title: 'Medicines',
-    sub: 'Pharmacy',
-    icon: ServiceIcon.medication,
-    bg: 'var(--pastel-amber)',
-    color: 'var(--pastel-amber-icon)',
-    go: 'records',
-  },
-  {
-    key: 'records',
-    title: 'Reports',
-    sub: 'Health files',
-    icon: ServiceIcon.lab,
-    bg: 'var(--pastel-mint)',
-    color: 'var(--pastel-mint-icon)',
-    go: 'records',
-  },
-  {
-    key: 'checkup',
-    title: 'Lab Tests',
-    sub: 'Diagnostics',
-    icon: ServiceIcon.checkup,
-    bg: 'var(--pastel-rose)',
-    color: 'var(--pastel-rose-icon)',
-    go: 'appointments',
-  },
+  { key: 'consultation', icon: ServiceIcon.consultation, bg: 'var(--pastel-blue)', color: 'var(--pastel-blue-icon)', go: 'doctors' },
+  { key: 'medication', icon: ServiceIcon.medication, bg: 'var(--pastel-amber)', color: 'var(--pastel-amber-icon)', go: 'records' },
+  { key: 'records', icon: ServiceIcon.lab, bg: 'var(--pastel-mint)', color: 'var(--pastel-mint-icon)', go: 'records' },
+  { key: 'checkup', icon: ServiceIcon.checkup, bg: 'var(--pastel-rose)', color: 'var(--pastel-rose-icon)', go: 'appointments' },
 ];
 
+/* Rotating promo banners — copy comes from home.banner_<key>_headline / _sub / _cta. */
 const BANNERS = [
-  {
-    id: 'medical-services',
-    headline: 'Get the Best Medical Services',
-    subtitle: 'We provide best quality medical service without further cost.',
-    cta: 'Book Appointment',
-    target: 'appointments',
-    theme: 'cyan',
-  },
-  {
-    id: 'live-queue',
-    headline: 'Smart Wait Time & Live Queue',
-    subtitle: 'Track your token in real-time and arrive right on schedule.',
-    cta: 'View Live Queue',
-    target: 'queue',
-    theme: 'blue',
-  },
-  {
-    id: 'fast-track',
-    headline: 'Instant 24/7 Emergency Care',
-    subtitle: 'Immediate priority hospital routing and direct staff alert.',
-    cta: 'Emergency Fast-Track',
-    target: 'emergency',
-    theme: 'rose',
-  },
+  { id: 'medical-services', key: 'medical', target: 'appointments', theme: 'cyan' },
+  { id: 'live-queue', key: 'queue', target: 'queue', theme: 'blue' },
+  { id: 'fast-track', key: 'emergency', target: 'emergency', theme: 'rose' },
 ];
 
 export default function Dashboard({ ctx }) {
+  const { t } = useLanguage();
   const { patientName, navigate, queue, emergencies, notifications } = ctx;
 
   const mine = useResource(() => api.appointments({ patientName }), [patientName], {
@@ -148,7 +99,7 @@ export default function Dashboard({ ctx }) {
       <header className="ref-home-header">
         <div className="ref-greeting-wrap">
           <div className="ref-greeting-sub">
-            <span>👋</span> Hello!
+            <span>👋</span> {t('home.hello')}
           </div>
           <h1 className="ref-greeting-name">{patientName || 'Martin Shah'}</h1>
         </div>
@@ -174,8 +125,8 @@ export default function Dashboard({ ctx }) {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search medical, doctors, records..."
-            aria-label="Search medical"
+            placeholder={t('home.searchPlaceholder')}
+            aria-label={t('home.searchPlaceholder')}
           />
         </div>
         <button
@@ -191,9 +142,9 @@ export default function Dashboard({ ctx }) {
       {/* ------------------------------------------------ Services Grid (4 Pastel Squircles) */}
       <section className="ref-section ref-services-section">
         <div className="ref-section-head">
-          <h2>Services</h2>
+          <h2>{t('home.services')}</h2>
           <button type="button" className="ref-view-all" onClick={() => navigate('doctors')}>
-            View all
+            {t('home.viewAll')}
           </button>
         </div>
         <div className="ref-services-grid">
@@ -212,7 +163,7 @@ export default function Dashboard({ ctx }) {
                 >
                   <Glyph />
                 </div>
-                <span className="ref-service-title">{s.title}</span>
+                <span className="ref-service-title">{t(`home.services_${s.key}_title`)}</span>
               </button>
             );
           })}
@@ -223,8 +174,8 @@ export default function Dashboard({ ctx }) {
       <section className="ref-banner-section">
         <div className={`ref-hero-banner theme-${banner.theme}`}>
           <div className="ref-banner-content">
-            <h3 className="ref-banner-title">{banner.headline}</h3>
-            <p className="ref-banner-sub">{banner.subtitle}</p>
+            <h3 className="ref-banner-title">{t(`home.banner_${banner.key}_headline`)}</h3>
+            <p className="ref-banner-sub">{t(`home.banner_${banner.key}_sub`)}</p>
             <button
               type="button"
               className="ref-banner-btn"
@@ -233,7 +184,7 @@ export default function Dashboard({ ctx }) {
                 else navigate(banner.target);
               }}
             >
-              {banner.cta}
+              {t(`home.banner_${banner.key}_cta`)}
             </button>
           </div>
           <div className="ref-banner-art-wrap">
@@ -259,7 +210,7 @@ export default function Dashboard({ ctx }) {
       {attention.length > 0 && (
         <section className="ref-section attention-box ref-attention-section">
           <div className="ref-section-head">
-            <h2>Needs Attention</h2>
+            <h2>{t('home.needsAttention')}</h2>
             <span className="ref-attention-pill">{attention.length}</span>
           </div>
           <div className="ref-attention-stack">
@@ -284,9 +235,9 @@ export default function Dashboard({ ctx }) {
       {/* ------------------------------------------------ Upcoming Appointments (Reference 1 Dual-Tone Cards) */}
       <section className="ref-section ref-appointments-section">
         <div className="ref-section-head">
-          <h2>Upcoming Appointments</h2>
+          <h2>{t('home.upcoming')}</h2>
           <button type="button" className="ref-view-all" onClick={() => navigate('appointments')}>
-            View all
+            {t('home.viewAll')}
           </button>
         </div>
 
@@ -314,7 +265,8 @@ export default function Dashboard({ ctx }) {
                   <span className="ref-appt-spec">{upcoming.department || 'Depression / Consultation'}</span>
                   {position >= 0 && (
                     <span className="ref-appt-queue-tag">
-                      Token #{upcoming.token} · {position === 0 ? 'You are next' : `${position} ahead`}
+                      Token #{upcoming.token} ·{' '}
+                      {position === 0 ? t('home.youAreNext') : t('home.ahead', { n: position })}
                     </span>
                   )}
                 </div>
@@ -344,7 +296,7 @@ export default function Dashboard({ ctx }) {
                   <span className="ref-appt-time">11:00 AM</span>
                   <h4 className="ref-appt-doctor">Dr. Rajesh Varma</h4>
                   <span className="ref-appt-spec">Cardiology · Health Check</span>
-                  <span className="ref-appt-queue-tag">Token #05 · On Schedule</span>
+                  <span className="ref-appt-queue-tag">Token #05 · {t('home.onSchedule')}</span>
                 </div>
                 <button
                   type="button"
@@ -361,15 +313,15 @@ export default function Dashboard({ ctx }) {
           ) : (
             <div className="ref-empty-appt-card">
               <div className="ref-empty-text">
-                <b>No upcoming appointments</b>
-                <span>Book a consultation with our verified doctors anytime.</span>
+                <b>{t('home.noUpcomingTitle')}</b>
+                <span>{t('home.noUpcomingBody')}</span>
               </div>
               <button
                 type="button"
                 className="ref-book-now-btn"
                 onClick={() => navigate('appointments')}
               >
-                Book Now
+                {t('home.bookNow')}
               </button>
             </div>
           )}
@@ -379,9 +331,9 @@ export default function Dashboard({ ctx }) {
       {/* ------------------------------------------------ Health at a Glance & Report Cards */}
       <section className="ref-section ref-health-section">
         <div className="ref-section-head">
-          <h2>Here's your health at a glance</h2>
+          <h2>{t('home.healthGlance')}</h2>
           <button type="button" className="ref-view-all" onClick={() => navigate('records')}>
-            Full Report
+            {t('home.fullReport')}
           </button>
         </div>
 
@@ -393,7 +345,7 @@ export default function Dashboard({ ctx }) {
               <div className="ref-glance-icon cyan">
                 <UI.clock style={{ width: 16, height: 16 }} />
               </div>
-              <span className="ref-glance-label">Heart Rate</span>
+              <span className="ref-glance-label">{t('home.heartRate')}</span>
             </div>
             <div className="ref-glance-body">
               <div className="ref-val-unit">
@@ -412,7 +364,7 @@ export default function Dashboard({ ctx }) {
               <div className="ref-glance-icon purple">
                 <UI.walker style={{ width: 16, height: 16 }} />
               </div>
-              <span className="ref-glance-label">Daily Steps</span>
+              <span className="ref-glance-label">{t('home.dailySteps')}</span>
             </div>
             <div className="ref-glance-body">
               <div className="ref-val-unit">
@@ -438,7 +390,7 @@ export default function Dashboard({ ctx }) {
                 <UI.dotsVertical />
               </button>
             </div>
-            <span className="ref-mini-label">Blood Group</span>
+            <span className="ref-mini-label">{t('home.bloodGroup')}</span>
             <span className="ref-mini-val">{rec.bloodGroup || 'A+'}</span>
           </div>
 
@@ -452,7 +404,7 @@ export default function Dashboard({ ctx }) {
                 <UI.dotsVertical />
               </button>
             </div>
-            <span className="ref-mini-label">Weight</span>
+            <span className="ref-mini-label">{t('home.weight')}</span>
             <span className="ref-mini-val">{rec.weightKg || 80} <small>kg</small></span>
           </div>
         </div>
@@ -465,7 +417,7 @@ export default function Dashboard({ ctx }) {
             </div>
             <div>
               <div className="ref-sleep-val">9h 30m</div>
-              <span className="ref-sleep-sub">Total sleep</span>
+              <span className="ref-sleep-sub">{t('home.totalSleep')}</span>
             </div>
           </div>
           <div className="ref-sleep-chart-wrap">
@@ -484,9 +436,9 @@ export default function Dashboard({ ctx }) {
       {/* ------------------------------------------------ Daily Recommendations */}
       <section className="ref-section ref-recommendations-section">
         <div className="ref-section-head">
-          <h2>Daily recommendations</h2>
+          <h2>{t('home.dailyRecommendations')}</h2>
           <button type="button" className="ref-view-all" onClick={() => navigate('records')}>
-            See all
+            {t('home.seeAll')}
           </button>
         </div>
         <div className="ref-recommend-card" onClick={() => navigate('records')}>
@@ -494,8 +446,8 @@ export default function Dashboard({ ctx }) {
             <UI.waterDrop />
           </div>
           <div className="ref-recommend-text">
-            <b>Stay Hydrated!</b>
-            <span>Drink at least 2L of water today for optimal vitality.</span>
+            <b>{t('home.hydrateTitle')}</b>
+            <span>{t('home.hydrateBody')}</span>
           </div>
           <UI.chevron className="ref-chevron" />
         </div>
@@ -504,9 +456,9 @@ export default function Dashboard({ ctx }) {
       {/* ------------------------------------------------ Latest Report Section (Reference Image 1 Right) */}
       <section className="ref-section ref-reports-section">
         <div className="ref-section-head">
-          <h2>Latest Report</h2>
+          <h2>{t('home.latestReport')}</h2>
           <button type="button" className="ref-view-all" onClick={() => navigate('records')}>
-            View all
+            {t('home.viewAll')}
           </button>
         </div>
         <div className="ref-reports-list">
@@ -545,11 +497,11 @@ export default function Dashboard({ ctx }) {
             <Icon.alert />
           </div>
           <div className="ref-emergency-content">
-            <b>24/7 Emergency Fast-Track</b>
-            <span>Instant ambulance dispatch & hospital priority pass</span>
+            <b>{t('home.emergencyTitle')}</b>
+            <span>{t('home.emergencyBody')}</span>
           </div>
           <button type="button" className="ref-emergency-action">
-            Alert Team
+            {t('home.emergencyAction')}
           </button>
         </div>
       </section>

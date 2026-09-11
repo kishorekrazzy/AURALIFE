@@ -1,30 +1,33 @@
 import { useEffect } from 'react';
 import { Icon, BrandMark } from './Icons.jsx';
 import { UI } from './HomeArt.jsx';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
+import UtilityMenu from './UtilityMenu.jsx';
 
 export const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: Icon.dashboard, group: 'Patient' },
-  { id: 'appointments', label: 'Appointments', icon: Icon.calendar, group: 'Patient' },
-  { id: 'queue', label: 'Live Queue', icon: Icon.queue, group: 'Patient' },
-  { id: 'records', label: 'Health Records', icon: Icon.record, group: 'Patient' },
-  { id: 'doctors', label: 'Doctors', icon: Icon.doctor, group: 'Hospital' },
-  { id: 'navigation', label: 'Navigation', icon: Icon.map, group: 'Hospital' },
-  { id: 'analytics', label: 'Analytics', icon: Icon.chart, group: 'Hospital' },
-  { id: 'staff', label: 'Staff Workspace', icon: Icon.staff, group: 'Workspace' },
-  { id: 'admin', label: 'Admin Console', icon: Icon.shield, group: 'Workspace' },
+  { id: 'dashboard', labelKey: 'nav.dashboard', icon: Icon.dashboard, groupKey: 'nav.group.patient' },
+  { id: 'appointments', labelKey: 'nav.appointments', icon: Icon.calendar, groupKey: 'nav.group.patient' },
+  { id: 'queue', labelKey: 'nav.queue', icon: Icon.queue, groupKey: 'nav.group.patient' },
+  { id: 'records', labelKey: 'nav.records', icon: Icon.record, groupKey: 'nav.group.patient' },
+  { id: 'doctors', labelKey: 'nav.doctors', icon: Icon.doctor, groupKey: 'nav.group.hospital' },
+  { id: 'navigation', labelKey: 'nav.navigation', icon: Icon.map, groupKey: 'nav.group.hospital' },
+  { id: 'analytics', labelKey: 'nav.analytics', icon: Icon.chart, groupKey: 'nav.group.hospital' },
+  { id: 'staff', labelKey: 'nav.staff', icon: Icon.staff, groupKey: 'nav.group.workspace' },
+  { id: 'admin', labelKey: 'nav.admin', icon: Icon.shield, groupKey: 'nav.group.workspace' },
 ];
 
 const TABS = [
-  { id: 'dashboard', label: 'Home', icon: UI.home, activeIcon: UI.homeFill },
-  { id: 'appointments', label: 'Schedule', icon: UI.calendarSmall },
-  { id: 'records', label: 'Report', icon: UI.records },
-  { id: 'navigation', label: 'Navigation', icon: Icon.map },
-  { id: 'doctors', label: 'Profile', icon: UI.profile },
+  { id: 'dashboard', labelKey: 'tabbar.home', icon: UI.home, activeIcon: UI.homeFill },
+  { id: 'appointments', labelKey: 'tabbar.schedule', icon: UI.calendarSmall },
+  { id: 'records', labelKey: 'tabbar.report', icon: UI.records },
+  { id: 'navigation', labelKey: 'tabbar.navigation', icon: Icon.map },
+  { id: 'doctors', labelKey: 'tabbar.profile', icon: UI.profile },
 ];
 
 export function Rail({ view, onNavigate, counts = {}, online, drawerOpen }) {
+  const { t } = useLanguage();
   const groups = NAV_ITEMS.reduce((acc, item) => {
-    (acc[item.group] = acc[item.group] || []).push(item);
+    (acc[item.groupKey] = acc[item.groupKey] || []).push(item);
     return acc;
   }, {});
 
@@ -34,14 +37,14 @@ export function Rail({ view, onNavigate, counts = {}, online, drawerOpen }) {
         <BrandMark />
         <span className="brand-text">
           <span className="brand-name">AURALIFE</span>
-          <span className="brand-sub">Connected Hospital Care</span>
+          <span className="brand-sub">{t('brand.tagline')}</span>
         </span>
       </div>
 
       <nav className="rail-nav">
-        {Object.entries(groups).map(([group, items]) => (
-          <div key={group}>
-            <div className="nav-group">{group}</div>
+        {Object.entries(groups).map(([groupKey, items]) => (
+          <div key={groupKey}>
+            <div className="nav-group">{t(groupKey)}</div>
             {items.map((item) => {
               const Glyph = item.icon;
               const count = counts[item.id];
@@ -55,7 +58,7 @@ export function Rail({ view, onNavigate, counts = {}, online, drawerOpen }) {
                   tabIndex={drawerOpen === false ? undefined : 0}
                 >
                   <Glyph />
-                  <span className="nav-label">{item.label}</span>
+                  <span className="nav-label">{t(item.labelKey)}</span>
                   {count ? <span className="nav-count">{count}</span> : null}
                 </button>
               );
@@ -67,7 +70,7 @@ export function Rail({ view, onNavigate, counts = {}, online, drawerOpen }) {
       <div className="rail-foot">
         <div className={`conn ${online ? '' : 'down'}`.trim()}>
           <i />
-          {online ? 'API connected' : 'API offline'}
+          {online ? t('rail.connected') : t('rail.offline')}
         </div>
         Problem Statement 26199
         <br />
@@ -77,7 +80,8 @@ export function Rail({ view, onNavigate, counts = {}, online, drawerOpen }) {
   );
 }
 
-export function AppBar({ onMenu, onAssistant, alerts = 0 }) {
+export function AppBar({ onMenu, onAssistant, alerts = 0, patientName }) {
+  const { t } = useLanguage();
   return (
     <header className="appbar">
       <button type="button" className="appbar-btn ghost" onClick={onMenu} aria-label="Open navigation">
@@ -91,32 +95,34 @@ export function AppBar({ onMenu, onAssistant, alerts = 0 }) {
         type="button"
         className="appbar-btn ghost"
         onClick={onAssistant}
-        aria-label={alerts ? `Notifications, ${alerts} unread` : 'Notifications'}
+        aria-label={alerts ? `${t('notifications.title')}, ${alerts}` : t('notifications.title')}
       >
         <UI.bell />
         {alerts > 0 && <i className="appbar-dot" />}
       </button>
+      <UtilityMenu patientName={patientName} />
     </header>
   );
 }
 
 export function TabBar({ view, onNavigate, onMore, alerts = 0 }) {
+  const { t } = useLanguage();
   return (
     <nav className="tabbar" aria-label="Primary">
-      {TABS.map((t) => {
-        const active = view === t.id;
-        const Glyph = active && t.activeIcon ? t.activeIcon : t.icon;
+      {TABS.map((tab) => {
+        const active = view === tab.id;
+        const Glyph = active && tab.activeIcon ? tab.activeIcon : tab.icon;
         return (
           <button
-            key={t.id}
+            key={tab.id}
             type="button"
             className={`tab-item ${active ? 'active' : ''}`.trim()}
-            onClick={() => onNavigate(t.id)}
+            onClick={() => onNavigate(tab.id)}
             aria-current={active ? 'page' : undefined}
           >
             <Glyph />
-            <span>{t.label}</span>
-            {t.id === 'records' && alerts > 0 && <i className="tab-dot" aria-hidden="true" />}
+            <span>{t(tab.labelKey)}</span>
+            {tab.id === 'records' && alerts > 0 && <i className="tab-dot" aria-hidden="true" />}
           </button>
         );
       })}

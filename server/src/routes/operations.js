@@ -181,7 +181,13 @@ router.get('/feedback', (req, res) => {
 });
 
 router.post('/feedback', (req, res) => {
-  const { rating, type = 'compliment', message = '', patientName = 'Demo Patient' } = req.body || {};
+  const {
+    rating,
+    type = 'compliment',
+    message = '',
+    patientName = 'Demo Patient',
+    appointmentId = null,
+  } = req.body || {};
   const numeric = Number(rating);
   if (!numeric && !String(message).trim()) {
     return res.status(400).json({ error: 'Provide a rating (1–5) or a written message' });
@@ -190,12 +196,27 @@ router.post('/feedback', (req, res) => {
     return res.status(400).json({ error: 'rating must be between 1 and 5' });
   }
   const created = mutate((state) => {
+    // Feedback can reference a real, completed visit so it is traceable to an
+    // actual appointment rather than a floating rating. An unknown id is
+    // simply dropped, never invented, so the link is either real or absent.
+    const visit =
+      appointmentId != null
+        ? state.appointments.find(
+            (a) => a.id === appointmentId && a.patientName.toLowerCase() === String(patientName).toLowerCase(),
+          )
+        : null;
+    const doctor = visit ? state.doctors.find((d) => d.id === visit.doctorId) : null;
+
     const entry = {
       id: `fbk${String(state.feedback.length + 1).padStart(3, '0')}`,
       rating: numeric || null,
       type,
       message: String(message).trim(),
       patientName,
+      appointmentId: visit ? visit.id : null,
+      doctorName: doctor ? doctor.name : null,
+      department: visit ? visit.department : null,
+      visitDate: visit ? visit.date : null,
       createdAt: new Date().toISOString(),
     };
     state.feedback.push(entry);
